@@ -1,0 +1,20 @@
+<div class="col-md-6">
+    <section id="articles">
+        <ul id="task-card" class="collection with-header">
+            <li class="collection-header cyan">
+                <h4 class="task-card-title">My Latest Articles
+                    <i class="fa fa-file-text-o right"></i>
+                </h4>
+            </li>
+            <ul class="collapsible articles-colapsible" data-collapsible="accordion">
+                {% for article in articles %}
+                    <li>
+                        <div class="collapsible-header task-card-article-heading">{{ article.heading }}<span class="date right">{{ article.createdAt|date("F d, Y") }}</span></div>
+                        <div class="collapsible-body"><p>{{ article.content|slice(0,200) }} <a href="{{ path('article-single', {'id':article.articleId}) }}"><i class="fa fa-ellipsis-h right fa-2x"></i></a></p></div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </section>
+</div>
+

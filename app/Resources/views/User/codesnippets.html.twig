@@ -1,0 +1,23 @@
+
+<div class="col-md-6">
+    <section id="articles">
+        <ul id="task-card" class="collection with-header">
+            <li class="collection-header cyan">
+                <h4 class="task-card-title">My Latest Code Snippets
+                    <i class="fa fa-file-text-o right"></i>
+                </h4>
+            </li>
+            <ul class="collapsible articles-colapsible" data-collapsible="accordion">
+                {% for code in codeSnippets %}
+                    <li>
+                        <div class="collapsible-header task-card-article-heading">{{ code.heading }}<span class="date right">{{ code.createdAt|date("F d, Y") }}</span></div>
+                        <div class="collapsible-body"><p> <a href="{{ path('code_main', {'id':code.codeSnippetId}) }}"><i class="fa fa-ellipsis-h right fa-2x"></i></a></p></div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </ul>
+    </section>
+</div>
+
+
+

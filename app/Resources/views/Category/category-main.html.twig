@@ -1,0 +1,46 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+
+{% endblock %}
+{% block content %}
+    <section id="category-add" class="clearfix">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-folder-open"></i> Category</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-folder-open"></i><a href="index.html">Category</a></li>
+                <li class="active"><i class="fa fa-plus"></i>Add</li>
+            </ol>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                {{ form_start(form) }}
+                <div class="form-group col-sm-12">
+                    {{ form_row (form.category_name) }}
+                </div>
+                <div class="form-group col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{ form_row(form.save) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+                <div class="col-sm-6">
+                    <button class="btn waves-effect waves-light btn-primary" id="get_categories">See existing categories</button>
+                </div>
+            </div>
+            <div id="ajax">
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block customScripts %}
+    <script>
+        {#$('#get_categories').on('click', function(){#}
+            {#$.get('{{path('ajax_all_categories')}}', function(data){#}
+                {#console.log(data);#}
+            {#});#}
+        {#});#}
+    </script>
+{% endblock %}

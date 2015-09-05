@@ -1,0 +1,177 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <style>
+        .input-field{
+            margin-top: 15px;
+        }
+        .card-video-holder{
+            /*margin-right: 15px;*/
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .card-video-holder .card-image{
+            text-align: center;
+            background-color: #000;
+        }
+        .card .card-image img{
+            width: auto;
+            height: 250px;
+        }
+        .card iframe{
+            height: 250px;
+            width:100%;
+        }
+        .card-title{
+            line-height: 38px!important;
+        }
+        .card-content{
+            min-height: 140px!important;
+        }
+        .card-title button{
+            position: absolute;
+            right: 20;
+            top: 220px;
+            background-color: #E6616B;
+        }
+        .card-title button:hover, .card-title button:focus, .card-title button:active{
+            background-color:#E6616B;
+        }
+        .card-reveal{
+            z-index: 3!important;
+            padding: 30px!important;
+        }
+        .card-reveal p{
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="dashboard">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-home"></i> Dashboard</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-home"></i><a href="{{ path('article-main') }}">Dashboard</a></li>
+            </ol>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <section id="articles">
+                    <ul id="task-card" class="collection with-header">
+                        <li class="collection-header cyan">
+                            <h4 class="task-card-title">Latest Articles
+                                <i class="fa fa-file-text-o right"></i>
+                            </h4>
+                        </li>
+                        <ul class="collapsible articles-colapsible" data-collapsible="accordion">
+                            {% for article in articles %}
+                                <li>
+                                    <div class="collapsible-header task-card-article-heading">{{ article.heading }}<span class="date right">{{ article.createdAt|date("F d, Y") }}</span></div>
+                                    <div class="collapsible-body"><p>{{ article.content|slice(0,200) }} <a href="{{ path('article-single', {'id':article.articleId}) }}"><i class="fa fa-ellipsis-h right fa-2x"></i></a></p></div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-6 text-center">
+                <h5 class="page-header">Article tags statistics</h5>
+                <canvas id="radar" height="210">
+                </canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="page-header">Recent videos</h5>
+                <section id="videos">
+                    <div class="slider">
+                        <ul class="slides">
+                            {% for video in videos %}
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card card-video-holder">
+                                                <div class="card-image waves-effect waves-block waves-light">
+                                                    <div class="youtube" id="{{ video.link[30:] }}">
+                                                        {#<img src="http://img.youtube.com/vi{{ video.link[29:] }}/0.jpg" alt=""/>#}
+                                                    </div>
+                                                    {#<iframe   src="{{ video.link }}?showinfo=0&rel=0&theme=light" frameborder="0" allowfullscreen></iframe>#}
+                                                </div>
+                                                <div class="card-content">
+                                                <span class="card-title activator grey-text text-darken-4 card-heading">{{ video.heading }}
+                                                    <button class="btn-floating btn-large waves-effect waves-light right"><i class="fa fa-ellipsis-v right"></i></button></span>
+                                                    <p><a href="{{ video.link|replace({'/embed/':'/watch/'}) }}">{{ video.link|replace({'/embed/':'/watch/'})  }}</a></p>
+                                                    <span class="date right">{{ video.createdAt | date("F d, Y")  }}</span>
+                                                </div>
+                                                <div class="card-reveal">
+                                                <span class="card-title grey-text text-darken-4">{{ video.heading }}
+                                                    <i class="fa fa-times right"></i></span>
+                                                    <p>{{ video.description }}</p>
+                                                    <hr/>
+                                                    <span><b>tags:</b>{{ video.tags }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+                <button class="btn-floating btn-large waves-effect waves-light full-screen"><i class="fa fa-desktop"></i></button>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block customScripts %}
+    <script src="{{ asset('Dashboard/js/posts.js') }}"></script>
+    <script src="{{ asset('Dashboard/js/Chart.min.js') }}"></script>
+    <script src="{{ asset('Dashboard/js/Chart.PolarArea.js') }}"></script>
+    <script src="{{ asset('Base/js/prepareForGraphic.js') }}"></script>
+    <script src="{{ asset('Video/youtube.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.slider').slider({
+                indicators:true,
+                interval:900000
+            });
+            $('.slider').slider('pause');
+            $('.collapsible').collapsible({
+                accordion : true // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+            });
+            $('.full-screen').on('click', function(){
+                $(this).parent().toggleClass('col-md-6 col-md-12');
+                $('html,body').animate({
+                    scrollTop: $("#videos").offset().top
+                });
+            });
+
+            var articleTags = [];
+
+            {% for article in articles  %}
+            var tags = "{{ article.tags }}";
+            tags = tags.split(',');
+            articleTags = articleTags.concat(tags);
+            {% endfor %}
+            var colors  = ['#3A4450', '#E6616B', '#2BBBAD', '#6bbef6'];
+            analize(articleTags);
+
+            var dataForRadar = [];
+            for(var i = 0; i<tagsNum.length; i++){
+                dataForRadar.push({
+                    value: tagsNum[i],
+                    color:colors[Math.floor(Math.random() * colors.length)],
+                    highlight: "#FF5A5E",
+                    label: tagWords[i]
+                })
+            }
+
+            console.log(dataForRadar);
+            var ctx = document.getElementById("radar").getContext("2d");
+            new Chart(ctx).PolarArea(dataForRadar);
+        });
+    </script>
+
+{% endblock %}
+

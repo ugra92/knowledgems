@@ -1,0 +1,46 @@
+# you can read more about security in the related section of the documentation
+# http://symfony.com/doc/current/book/security.html
+security:
+    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
+    firewalls:
+        dev:
+             pattern:  ^/(_(profiler|wdt)|css|images|js)/
+             security: false
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        main:
+            pattern: ^/
+            form_login:
+                check_path: fos_user_security_check
+                login_path: fos_user_security_login
+                default_target_path: homepage
+                provider: fos_userbundle
+                use_referer: true
+            logout:       true
+            anonymous:    true
+        # secures part of the application
+
+    # with these settings you can restrict or allow access for different parts
+    # of your application based on roles, ip, host or methods
+    # http://symfony.com/doc/current/cookbook/security/access_control.html
+    access_control:
+
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/resetting, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/admin/, roles: ROLE_ADMIN }
+         - { path: ^/, roles: ROLE_USER }

@@ -1,0 +1,20 @@
+.textarea-reset{
+    resize: none;
+}
+.codeSnippets{
+    background: #2E3B46;
+    padding: 2px 15px;
+    color: #FFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.articles-all .panel-body{
+    padding-top: 0;
+}
+.info{
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-right: 10px;
+    font-size: 11px;
+    color: #394A59;
+}

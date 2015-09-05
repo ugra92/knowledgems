@@ -1,0 +1,90 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+     category_repository:
+          class: AppBundle\Entity\Repository\CategoryRepository
+          factory_service: doctrine.orm.default_entity_manager
+          factory_method: getRepository
+          arguments: [AppBundle\Entity\Category]
+
+     article_repository:
+               class: AppBundle\Entity\Repository\ArticleRepository
+               factory_service: doctrine.orm.default_entity_manager
+               factory_method: getRepository
+               arguments: [AppBundle\Entity\Article]
+
+     video_repository:
+                    class: AppBundle\Entity\Repository\VideoRepository
+                    factory_service: doctrine.orm.default_entity_manager
+                    factory_method: getRepository
+                    arguments: [AppBundle\Entity\Video]
+
+     user_repository:
+                    class: AppBundle\Entity\Repository\UserRepository
+                    factory_service: doctrine.orm.default_entity_manager
+                    factory_method: getRepository
+                    arguments: [AppBundle\Entity\User]
+
+     department_repository:
+                    class: AppBundle\Entity\Repository\DepartmentRepository
+                    factory_service: doctrine.orm.default_entity_manager
+                    factory_method: getRepository
+                    arguments: [AppBundle\Entity\Department]
+
+     comments_repository:
+                     class: AppBundle\Entity\Repository\CommentRepository
+                     factory_service: doctrine.orm.default_entity_manager
+                     factory_method: getRepository
+                     arguments: [AppBundle\Entity\Comment]
+
+     code_repository:
+                          class: AppBundle\Entity\Repository\CodeSnippetRepository
+                          factory_service: doctrine.orm.default_entity_manager
+                          factory_method: getRepository
+                          arguments: [AppBundle\Entity\CodeSnippet]
+
+     task_repository:
+                          class: AppBundle\Entity\Repository\TaskRepository
+                          factory_service: doctrine.orm.default_entity_manager
+                          factory_method: getRepository
+                          arguments: [AppBundle\Entity\Task]
+
+     category_manager:
+               class: AppBundle\Entity\Manager\CategoryManager
+               arguments: ['@category_repository']
+
+     article_manager:
+                class: AppBundle\Entity\Manager\ArticleManager
+                arguments: ['@article_repository', '@category_manager']
+
+     video_manager:
+                     class: AppBundle\Entity\Manager\VideoManager
+                     arguments: ['@video_repository', '@category_manager']
+
+     department_manager:
+                 class: AppBundle\Entity\Manager\DepartmentManager
+                 arguments: ['@department_repository']
+
+     comment_manager:
+                 class: AppBundle\Entity\Manager\CommentManager
+                 arguments: ['@comments_repository', '@article_manager']
+
+     code_manager:
+                  class: AppBundle\Entity\Manager\CodeSnippetManager
+                  arguments: ['@code_repository']
+
+     task_manager:
+                  class: AppBundle\Entity\Manager\TaskManager
+                  arguments: ['@task_repository']
+
+     acme_user.registration.form.type:
+             class: AppBundle\Form\Type\RegistrationFormType
+             tags:
+                 - { name: form.type, alias: acme_user_registration }

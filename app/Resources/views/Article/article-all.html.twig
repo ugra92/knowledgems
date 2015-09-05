@@ -1,0 +1,142 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+{% endblock %}
+{% block content %}
+    <section id="article-all">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-file-text-o"></i> Articles</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-file-text-o"></i><a href="index.html">Articles</a></li>
+                <li  class="active"><i class="fa fa-eye"></i>All</li>
+            </ol>
+        </div>
+        {#-----------------Sidebar--------------------------#}
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p>FIlter</p>
+                </div>
+                <div class="panel-body">
+                    <div class="portlets">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="pull-left">Categories</div>
+                                <div class="widget-icons pull-right">
+                                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                {%  for category in categories %}
+                                    <div class="form-group">
+                                        <input type="checkbox" name="{{ category.name }}" id="{{ category.name }}" class="css-checkbox category-check"/>
+                                        <label for="{{ category.name }}" class="css-label">{{ category.name }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="pull-left">Sort by</div>
+                                <div class="widget-icons pull-right">
+                                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <input type="checkbox" name="dateAsc" id="dateAsc" class="css-checkbox"/>
+                                    <label for="dateAsc" class="css-label">Date Ascending</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" name="dateDesc" id="dateDesc" class="css-checkbox"/>
+                                    <label for="dateDesc" class="css-label">Date Descending</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" name="commentsAsc" id="commentsAsc" class="css-checkbox"/>
+                                    <label for="commentsAsc" class="css-label">Comments Ascending</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" name="commentsDesc" id="commentsDesc" class="css-checkbox"/>
+                                    <label for="commentsDesc" class="css-label">Comments Descending</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#-----------------Main content ---------------------#}
+        <div class="col-md-9">
+            <div class="row articles-all">
+                {% for article in articles %}
+                    <div class="panel-body">
+                        <div class="profile-activity">
+                            <div class="act-time">
+                                <div class="activity-body act-in articles-timeline">
+                                    <div class="text">
+                                        <a href="#" class="activity-img"><img class="avatar" src="http://www.thebalsagroup.org/wp-content/uploads/2014/10/Five-Promotional-Items-For-the-Savvy-Businessman.png" alt=""></a>
+                                        <p class="attribution"><a href="#">{{ article.userId.getName }}</a> {{ article.createdAt|date("F d, Y") }}</p>
+                                        <a href="{{ path('article-single', {'id':article.articleId}) }}"><h5>{{ article.heading }}</h5></a>
+                                        <p>{{ article.content|slice(0,150) }} <a href="{{ path('article-single', {'id':article.articleId}) }}">...</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block customScripts %}
+    <script>
+        $('.category-check').on('change', function(){
+            $('.articles-all').css('opacity', 0.15);
+            var parameters='';
+            $('.category-check').each(function(){
+                if($(this).is(':checked')){
+                    parameters+= $(this).attr('name')+',';
+                }
+            });
+            $.post( "{{ path('json-articles-post') }}", {parameter:parameters}, function( data ) {
+                success(data);
+            });
+
+            function success(obj){
+                $('.articles-all').css('opacity',1);
+                $('.articles-all').empty();
+                $.each(obj, function(i,val){
+                    var panelBody = renderDiv('panel-body');
+                    var profileActivity = renderDiv('profile-activity');
+                    var actTime = renderDiv('act-time');
+                    var activityBody = renderDiv('activity-body act-in articles-timeline');
+                    var text = renderDiv('text');
+                    var url = "{{ path('article-single', {'id': 'articleID'}) }}";
+                    url = url.replace("articleID", val.articleId);
+                    var textInner= " <a href='#' class='activity-img'><img class='avatar' src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/Five-Promotional-Items-For-the-Savvy-Businessman.png' alt=''></a>" +
+                            " <p class='attribution'><a href='#'>"+val.name+"</a>"+val.createdAt+"</p>" +
+                            " <h5><a href='"+url+"'>"+ val.heading+ "</h5></a>"+
+                            "<p>"+val.content.substring(0,150)+"</p>";
+                    $('.articles-all').append(panelBody.html(profileActivity.html(actTime.html(activityBody.html(text.html(textInner))))));
+                    console.log(val);
+                });
+            }
+        });
+        function renderDiv(klasa, tekst){
+            if(tekst=='undefined'){
+                tekst= '';
+            }
+            return $('<div>', {
+                "class": klasa,
+                "text": tekst
+            });
+        }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<div class="col-lg-12">
+    <div class="profile-widget card profile-widget-info">
+        <div class="panel-body">
+            <div class="col-lg-2 col-sm-2">
+                <h4>{{ user.name }}</h4>
+                <div class="follow-ava">
+                    {% if app.user.profileImg is not null %}
+                        <img alt="" src="{{ user.profileImg.getWebPath }}" alt="avatar">
+                    {% else  %}
+                        <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
+                    {% endif %}
+                </div>
+                <form action="{{ path('profile_photo_upload') }}" enctype="multipart/form-data" method="post" id="profileImgUpload">
+                    <span class="btn btn-success btn-file">
+                        Upload photo
+                    <input type="file" name="image" id="image"/>
+                        </span>
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i></button>
+                </form>
+                <h6>{{ user.position }}</h6>
+            </div>
+            <div class="col-lg-4 col-sm-4 follow-info">
+                <p>{{ user.name }}, currently working in a {{ user.departmentId.name }} department.</p>
+                <p>{{ user.email }}</p>
+                <p><span class="info">Username: </span>{{ user.username }}</i></p>
+            </div>
+
+            <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                <ul>
+                    <li class="active">
+
+                        <i class="fa fa-comments fa-2x"> </i><br>
+
+                        {{ user.comments|length}} comments
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                <ul>
+                    <li class="active">
+
+                        <i class="fa fa-file-text-o fa-2x"> </i><br>
+
+                        {{ user.articles|length}} articles
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-lg-2 col-sm-6 follow-info weather-category">
+                <ul>
+                    <li class="active">
+
+                        <i class="fa fa fa-tasks fa-2x"> </i><br>
+                        {{ user.tasks|length }} tasks
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
+    {#<script src="{{ asset('Video/youtubeOpt.js') }}"></script>#}
+    <style>
+        .input-field{
+            margin-top: 15px;
+        }
+        .card-video-holder{
+            /*margin-right: 15px;*/
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .card-video-holder .card-image{
+            text-align: center;
+            background-color: #000;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        .card-title{
+            line-height: 38px!important;
+        }
+        .card-content{
+            min-height: 140px!important;
+        }
+        .card-title button{
+            position: absolute;
+            right: 20;
+            top: 150px;
+            background-color: #E6616B;
+        }
+        .card-title button:hover, .card-title button:focus, .card-title button:active{
+            background-color:#E6616B;
+        }
+        .card-reveal{
+            z-index: 3!important;
+            padding: 30px!important;
+        }
+        .card-reveal p{
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="article-add">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-video-camera"></i> Videos</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-file-text-o"></i><a href="{{ path('video-main') }}">Videos</a></li>
+                <li class="active"><i class="fa fa-eye"></i>All</li>
+            </ol>
+        </div>
+        <div class="input-feild col-md-6">
+            <label for="searchHeading">Search by Heading</label>
+            <input type="text" id="searchHeading"/>
+        </div>
+        <div class="col-md-12 videosDiv">
+            <div id="loader">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for video in videos %}
+                <div class="col-md-6 col-lg-6">
+                    <div class="card card-video-holder">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <div class="youtube" id="{{ video.link[30:] }}">
+                                {#<img src="http://img.youtube.com/vi{{ video.link[29:] }}/0.jpg" alt=""/>#}
+                            </div>
+                            {#<iframe   src="{{ video.link }}?showinfo=0&rel=0&theme=light" frameborder="0" allowfullscreen></iframe>#}
+                        </div>
+                        <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4 card-heading">{{ video.heading }}
+                            <button class="btn-floating btn-large waves-effect waves-light right"><i class="fa fa-ellipsis-v right"></i></button></span>
+                            <p><a href="{{ video.link|replace({'/embed/':'/watch/'}) }}">{{ video.link|replace({'/embed/':'/watch/'})  }}</a></p>
+                            <span class="date right">{{ video.createdAt | date("F d, Y")  }}</span>
+                        </div>
+                        <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ video.heading }}
+                            <i class="fa fa-times right"></i></span>
+                            <p>{{ video.description }}</p>
+                            <hr/>
+                            <span><b>tags:</b>{{ video.tags }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {#<script type="text/javascript">optimizeYouTubeEmbeds()</script>#}
+{% endblock %}
+
+{% block customScripts %}
+    <script src="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.min.js') }}"></script>
+    <script src="{{ asset('Video/youtube.js') }}"></script>
+    <script>
+
+        $('#searchHeading').on('keyup', function(){
+            var searchStr = $('#searchHeading').val();
+            $('.card-heading').each(function(i,obj){
+                var heading = $(this).html().split('<')[0].toLowerCase();
+                if(heading.indexOf(searchStr)==-1){
+                    console.log(heading.indexOf(searchStr.toLowerCase())==-1);
+                    $(this).parent().parent().parent().addClass('hidden');
+                }else{
+                    $(this).parent().parent().parent().removeClass('hidden');
+                }
+            });
+
+        });
+        $(window).load(function(){
+           $('#loader').hide();
+        });
+    </script>
+    <style>
+        .youtube {
+            background-color: #000;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+            cursor: hand;
+            cursor: pointer
+        }
+        .youtube .thumb {
+            bottom: 0;
+            display: block;
+            left: 0;
+            margin: auto;
+            max-width: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width:auto!important;
+            height: 150px;
+        }
+    </style>
+{% endblock %}

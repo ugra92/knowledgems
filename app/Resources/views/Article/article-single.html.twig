@@ -1,0 +1,182 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+{% endblock %}
+{% block content %}
+    {%  set tags = article[0].tags|split(',') %}
+    {%  set author = article[0].userId.name  %}
+    <section id="article-all">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-file-text-o"></i> Articles</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-file-text-o"></i><a href="{{ path('article-main') }}">Articles</a></li>
+                <li class="active"><i class="fa fa-document"></i>{{ article[0].heading }}</li>
+            </ol>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box blue-bg">
+                <i class="fa fa-file-text-o"></i>
+                <div class="count">{{  article[0].heading  }}</div>
+                <div class="title">{{  article[0].heading  }}</div>
+            </div><!--/.info-box-->
+        </div><!--/.col-->
+        {#-----------------Main content ---------------------#}
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ article[0].content | raw  }}
+                </div>
+            </div>
+        </div>
+        {#-----------------Sidebar ---------------------#}
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-left">Basic Information</div>
+                    <div class="widget-icons pull-right">
+                        <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="info">Author: </span><b>{{ author }}</b>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="info">Created at: </span><b>{{ article[0].createdAt|date("F d, Y") }}</b>
+                        </div>
+                        <div class="col-md-12">
+                            <span class="info">Rating: </span><b>4.8</b>
+                        </div>
+                        <div class="col-md-12">
+                            <span class="info">Tags: </span>
+                            <b>
+                                {% for tag in tags %}
+                                    <a href="#">{{ tag }}</a>
+                                {% endfor %}
+                            </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#--------Comments------------------------------#}
+        <div class="col-md-9 portlets">
+            <!-- Widget -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-left">Comments</div>
+                    <div class="widget-icons pull-right">
+                        <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <!-- Widget content -->
+                    <div class="padd sscroll">
+                        <ul class="chats">
+                            <!-- Chat by us. Use the class "by-me". -->
+                            {% for comment in comments %}
+                                {% if comment.userId == article[0].userId %}
+                                    <script>
+                                        var author = "{{ author }}";
+                                    </script>
+                                    <li class="by-me">
+                                        <!-- Use the class "pull-left" in avatar -->
+                                        <div class="avatar pull-left">
+                                            {% if app.user.profileImg is not null %}
+                                                <img alt="" src="{{ comment.userId.profileImg.getWebPath }}" alt="avatar">
+                                            {% else  %}
+                                                <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
+                                            {% endif %}
+                                        </div>
+                                        <div class="chat-content">
+                                            <!-- In meta area, first include "name" and then "time" -->
+                                            <div class="chat-meta">{{ comment.userId.name }} <span class="pull-right">{{ comment.createdAt|date("F d, Y") }}</span></div>
+                                            {{ comment.text}}
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                {% else %}
+                                    <!-- Chat by other. Use the class "by-other". -->
+                                    <li class="by-other">
+                                        <!-- Use the class "pull-right" in avatar -->
+                                        <div class="avatar pull-right">
+                                            {% if comment.userId.profileImg is not null %}
+                                                <img alt="" src="{{ comment.userId.profileImg.getWebPath }}" alt="avatar">
+                                            {% else  %}
+                                                <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
+                                            {% endif %}
+                                        </div>
+                                        <div class="chat-content">
+                                            <!-- In the chat meta, first include "time" then "name" -->
+                                            <div class="chat-meta">{{ comment.createdAt|date("F d, Y") }} <span class="pull-right">{{ comment.userId.name }}</span></div>
+                                            {{ comment.text }}
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <hr/>
+                    <!-- Widget footer -->
+                    <div class="widget-foot col-md-8">
+                        <div class="form row">
+                            <div class="form-group col-md-8">
+                                <input type="text" class="form-control" name="comment" id="comment" placeholder="Type your comment here...">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button id="submit-comment" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block customScripts %}
+    <script src="{{ asset('Base/js/syntaxHighlighter/shCore.js') }}"></script>
+    <script src="{{ asset('Base/js/syntaxHighlighter/shBrushJScript.js') }}"></script>
+    <script src="{{ asset('Base/js/syntaxHighlighter/shBrushCss.js') }}"></script>
+    <script src="{{ asset('Base/js/syntaxHighlighter/shBrushPhp.js') }}"></script>
+
+    <script>
+        SyntaxHighlighter.all();
+        var id={{ app.request.get('id') }};
+        var comment="";
+        $('#submit-comment').on('click', function(){
+            comment = $('#comment').val();
+            $.post( "{{ path('json-add-comment') }}", {comment:comment, id:id}, function( data ) {
+                data = JSON.parse(data);
+                console.log(author);
+                console.log(data.user);
+                if( data.user == author ){
+                    klasa= "by-me";
+                    pul = "pull-left";
+                }
+                else{
+                    klasa= "by-other";
+                    pul = "pull-right";
+                }
+                html = "<li class='"+klasa+"'>";
+                html+="<div class='avatar "+pul+"'>";
+                html+="<img src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/business-man.png' alt=''>";
+                html+="</div>";
+                html+="<div class='chat-content'>";
+                html+="<div class='chat-meta'>"+data.createdAt+"<span class=" + pul + ">"+data.user+"</span></div>";
+                html+=""+data.text+"";
+                html+=" <div class='clearfix'></div></div></li>";
+                $('.chats').append(html);
+                console.log(data.text);
+            });
+        });
+    </script>
+
+{% endblock %}
