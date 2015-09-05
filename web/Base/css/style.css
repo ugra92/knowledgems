@@ -615,10 +615,10 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .dropdown-menu.extended {
-    max-width: 300px !important;
+    /*max-width: 300px !important;*/
     min-width: 160px !important;
     top: 42px;
-    width: 235px !important;
+    width: 345px !important;
     padding: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.176) !important;
     border: none !important;
@@ -3052,7 +3052,12 @@ ul.ft-link li a i {
     width: 65px;
     float: left;
 }
-
+.avatar-notification{
+    display: inline;
+}
+.avatar-notification img{
+    width: 30px;
+}
 .user-head .inbox-avatar img {
     border-radius: 4px;
     -webkit-border-radius: 4px;

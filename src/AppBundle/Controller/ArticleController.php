@@ -36,6 +36,7 @@ class ArticleController extends Controller
     {
         $form = $this->createForm(new ArticleType());
         $categories= $this->get('category_repository')->findAll();
+
         return $this->render('Article/article-main.html.twig', array('form'=>$form->createView(), 'categories'=>$categories));
     }
 
@@ -48,6 +49,7 @@ class ArticleController extends Controller
     {
         $form = $this->createForm(new ArticleType());
         $categories= $this->get('category_repository')->findAll();
+
         return $this->render('Article/article-edit.html.twig', array('form'=>$form->createView(), 'categories'=>$categories));
     }
 
@@ -60,42 +62,28 @@ class ArticleController extends Controller
     {
         $article = $this->get('article_manager')->getArticle($id);
         $comments= $this->get('comment_manager')->getComments($id);
-//        var_dump( $comments);
-//        exit;
+
         return $this->render('Article/article-single.html.twig', array('article'=> $article, 'comments'=>$comments));
     }
 
-    /**
-     * @Route("/article/print/{id}", name="article-single-print")
-     * @param $id
-     * @return string|Response
-     */
-    public function singleArticlePrintAction($id)
-    {
-        $article = $this->get('article_manager')->getArticle($id);
-        $comments= $this->get('comment_manager')->getComments($id);
-
-        $mpdfService = $this->get('tfox.mpdfport');
-        $html = $this->render('Article/print.html.twig');
-        return  ($response = $mpdfService->generatePdfResponse($html));
-
-    }
 
     /**
-     * @Route("/article/add", name="article-add-post")
+     * @Route("/article/json/add", name="article-add-post")
      * @param Request $request
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @Method("POST")
      */
     public function articleAddNewAction(Request $request)
     {
+
         //create new article
         $article = new Article();
         // get heading and content from $_POST
-        $article->setHeading($request->request->get('article')['heading']);
-        $article->setContent($request->request->get('article')['content']);
-        $article->setTags($request->request->get('article')['tags']);
-        if ($request->request->get('article')['privacy']=='internal'){
+        $article->setHeading($request->request->get('heading'));
+        $article->setContent($request->request->get('content'));
+        $article->setTags($request->request->get('tags'));
+
+        if ($request->request->get('privacy')=='internal'){
             $article->setPrivate(true);
         }
         else{

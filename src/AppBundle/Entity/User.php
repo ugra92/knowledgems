@@ -59,6 +59,11 @@ class User extends BaseUser{
     protected $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="user")
+     */
+    protected $notifications;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $position;
@@ -83,6 +88,7 @@ class User extends BaseUser{
         $this->videos= new ArrayCollection();
         $this->tasks= new ArrayCollection();
         $this->codeSnippets= new ArrayCollection();
+        $this->notifications= new ArrayCollection();
     }
 
     /**
@@ -239,6 +245,24 @@ class User extends BaseUser{
     {
         $this->videos = $videos;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * @param mixed $notifications
+     */
+    public function setNotifications($notifications)
+    {
+        $this->notifications = $notifications;
+    }
+
+
 
     /**
      * @return mixed

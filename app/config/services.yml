@@ -56,6 +56,12 @@ services:
                           factory_method: getRepository
                           arguments: [AppBundle\Entity\Task]
 
+     notification_repository:
+                          class: AppBundle\Entity\Repository\NotificationRepository
+                          factory_service: doctrine.orm.default_entity_manager
+                          factory_method: getRepository
+                          arguments: [AppBundle\Entity\Notification]
+
      category_manager:
                class: AppBundle\Entity\Manager\CategoryManager
                arguments: ['@category_repository']
@@ -88,3 +94,16 @@ services:
              class: AppBundle\Form\Type\RegistrationFormType
              tags:
                  - { name: form.type, alias: acme_user_registration }
+
+     kernel.listener.your_listener_name:
+             class: AppBundle\EventListener\NotificationListener
+             tags:
+                 - { name: doctrine.event_subscriber,  connection: default }
+
+     app.notification_extension:
+             class: AppBundle\Extensions\NotificationExtension
+             public: false
+             arguments:
+                    [@doctrine, @security.token_storage]
+             tags:
+                 - { name: twig.extension }

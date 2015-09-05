@@ -52,11 +52,6 @@ class Article{
      */
     protected $userId;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="articles")
-//     * @ORM\JoinColumn(name="post_id", referencedColumnName="postId")
-//     */
-//    protected $postId;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="articles")
@@ -70,9 +65,15 @@ class Article{
     protected $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="article")
+     */
+    protected $notifications;
+
+    /**
      * @ORM\Column(type="string")
      */
     protected $postType;
+
 
 
     /**
