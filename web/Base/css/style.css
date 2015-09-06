@@ -1831,9 +1831,9 @@ div[data-role="editor-toolbar"] {
     opacity: 1;
 }
 .notify-arrow-blue{
-    border-color: transparent transparent #688a7e;
-    border-bottom-color: #688a7e !important;
-    border-top-color: #688a7e !important;
+    border-color: transparent transparent #2196F3;
+    border-bottom-color: #2196F3  !important;
+    border-top-color: #2196F3  !important;
 }
 .notify-arrow-yellow {
     border-color: transparent transparent #FCB322;

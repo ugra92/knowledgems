@@ -141,8 +141,14 @@
                     {% for notification in notifications %}
                     <li data-id = "{{ notification.id }}" class="notification-li">
                         <a href="#">
-                            <div class="avatar-notification"><img alt="" src="{{ notification.user.profileImg.getWebPath }}" alt="avatar"></div>
-                           <span>{{ notification.user.username }} Commented on your article <span class="text-primary">{{ notification.article.heading }}</span></span>
+                            <div class="avatar-notification">
+                                {% if notification.user.profileImg %}
+                                <img alt="" src="{{ notification.user.profileImg.getWebPath }}" alt="avatar">
+                                {% else %}
+                                    <img alt="" src="http://eventraveler.com/images/avatar.png" alt="avatar">
+                                {% endif %}
+                            </div>
+                           <span><span class="text-danger">{{ notification.user.username }}</span> Commented on your article <span class="text-danger">{{ notification.article.heading }}</span></span>
                             <span class="small italic pull-right">{{ notification.createdAt|time_diff }}</span>
                         </a>
                     </li>
