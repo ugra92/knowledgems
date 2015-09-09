@@ -154,7 +154,7 @@
         var comment="";
         $('#submit-comment').on('click', function(){
             comment = $('#comment').val();
-            $.post( "{{ path('json-add-comment') }}", {comment:comment, id:id}, function( data ) {
+            $.post( "{{ path('json-add-comment') }}", {comment:comment, article:id}, function( data ) {
                 data = JSON.parse(data);
                 console.log(author);
                 console.log(data.user);

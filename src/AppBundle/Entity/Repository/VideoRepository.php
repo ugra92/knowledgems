@@ -7,11 +7,17 @@ use Doctrine\ORM\EntityRepository;
 
 class VideoRepository extends EntityRepository
 {
+
+    const ALIAS = 'v';
+
     public function findByName($name)
     {
 
     }
 
+    /**
+     * @return array
+     */
     public function findAllNoRelation(){
         $qb =$this->createQueryBuilder('v');
         $qb->select('v.videoId', 'v.heading', 'v.description', 'v.link', 'v.createdAt', 'v.tags')
@@ -19,6 +25,10 @@ class VideoRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param $limit
+     * @return array
+     */
     public function findVideosLimited($limit){
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -29,6 +39,9 @@ class VideoRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param Video $video
+     */
     public function saveVideo(Video $video){
         $this->_em->persist($video);
         $this->_em->flush();

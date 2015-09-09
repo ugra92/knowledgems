@@ -48,10 +48,10 @@ class User extends BaseUser{
      */
     protected $codeSnippets;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="documentId")
-     */
-    protected $documents;
+//    /**
+//     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Document", mappedBy="userId")
+//     */
+//    protected $documents;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="userId")
@@ -83,7 +83,7 @@ class User extends BaseUser{
     {
         parent::__construct();
         $this->comments= new ArrayCollection();
-        $this->documents= new ArrayCollection();
+//        $this->documents= new ArrayCollection();
         $this->articles= new ArrayCollection();
         $this->videos= new ArrayCollection();
         $this->tasks= new ArrayCollection();
@@ -182,21 +182,21 @@ class User extends BaseUser{
         $this->articles = $articles;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDocuments()
-    {
-        return $this->documents;
-    }
-
-    /**
-     * @param mixed $documents
-     */
-    public function setDocuments($documents)
-    {
-        $this->documents = $documents;
-    }
+//    /**
+//     * @return mixed
+//     */
+//    public function getDocuments()
+//    {
+//        return $this->documents;
+//    }
+//
+//    /**
+//     * @param mixed $documents
+//     */
+//    public function setDocuments($documents)
+//    {
+//        $this->documents = $documents;
+//    }
 
     /**
      * @return mixed

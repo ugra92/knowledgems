@@ -80,7 +80,7 @@ services:
 
      comment_manager:
                  class: AppBundle\Entity\Manager\CommentManager
-                 arguments: ['@comments_repository', '@article_manager']
+                 arguments: ['@comments_repository', '@article_manager', '@video_manager']
 
      code_manager:
                   class: AppBundle\Entity\Manager\CodeSnippetManager

@@ -76,9 +76,14 @@ class Video {
     protected $categoryId;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="commentId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="videoId")
      */
     protected $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="article")
+     */
+    protected $notifications;
 
     /**
      * @return mixed
@@ -121,6 +126,23 @@ class Video {
     {
         return $this->heading;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * @param mixed $notifications
+     */
+    public function setNotifications($notifications)
+    {
+        $this->notifications = $notifications;
+    }
+
 
     /**
      * @param mixed $heading

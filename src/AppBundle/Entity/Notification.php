@@ -27,16 +27,22 @@ class Notification {
     protected $id;
 
     /**
-     * @ManyToOne(targetEntity="User")
+     * @ManyToOne(targetEntity="User", inversedBy="notifications")
      * @JoinColumn(name="user_id", referencedColumnName="id")
      **/
     protected $user;
 
     /**
-     * @ManyToOne(targetEntity="Article")
+     * @ManyToOne(targetEntity="Article", inversedBy="notifications")
      * @JoinColumn(name="article_id", referencedColumnName="articleId")
      **/
     protected $article;
+
+    /**
+     * @ManyToOne(targetEntity="AppBundle\Entity\Video", inversedBy="notifications")
+     * @JoinColumn(name="video_id", referencedColumnName="videoId")
+     **/
+    protected $video;
 
     /**
      * @ORM\Column(type="datetime")
@@ -132,6 +138,23 @@ class Notification {
     {
         $this->createdAt = $createdAt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param mixed $video
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+    }
+
 
 
     public function __construct()
