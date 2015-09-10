@@ -14,7 +14,8 @@
                 <div class="col-md-6 col-lg-6">
                     <div class="card card-video-holder">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <iframe style="{{ code.css }}">{{ code.html }}</iframe>
+
+                            <iframe srcdoc="{{ code.html }}" id="iframe{{ code.codeSnippetId }}"></iframe>
                         </div>
                         <div class="card-content">
                         <span class="card-title activator grey-text text-darken-4 card-heading">{{ code.heading }}
@@ -35,7 +36,16 @@
     </section>
 {% endblock %}
 {% block customScripts %}
+    <script rel="script">
+        {% for code in codes %}
+        var identifier = "iframe";
+        identifier =identifier.concat({{  code.codeSnippetId  }});
+        var style = document.createElement("style");
+        console.log(style);
+        ($('#iframe'+{{  code.codeSnippetId  }}).contents().find("head"))[0].appendChild(style);
 
+        {% endfor %}
+    </script>
 
 {% endblock %}
 
