@@ -9,10 +9,12 @@ class CommentManager {
 
      protected $repository;
     protected $articleManager;
+    protected $videoManager;
 
-    public function __construct(CommentRepository $repository, ArticleManager $articleManager){
+    public function __construct(CommentRepository $repository, ArticleManager $articleManager, VideoManager $videoManager){
         $this->repository= $repository;
         $this->articleManager= $articleManager;
+        $this->videoManager= $videoManager;
 
     }
 
@@ -24,12 +26,19 @@ class CommentManager {
         return $this->repository->getUserComments($id);
     }
 
-     public function addComment(Comment $comment, $articleId){
+     public function addCommentArticle(Comment $comment, $articleId){
 
          $articles = $this->articleManager->getArticle($articleId);
          $article = $articles[0];
          $comment->setArticleId($article);
          return $this->repository->addComment($comment);
      }
+
+    public function addCommentVideo(Comment $comment, $videoId){
+
+        $video = $this->videoManager->findVideoByPk($videoId);
+        $comment->setVideoId($video);
+        return $this->repository->addComment($comment);
+    }
 
  }

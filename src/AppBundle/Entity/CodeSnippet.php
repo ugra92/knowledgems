@@ -51,7 +51,7 @@ class CodeSnippet {
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="codeSnippets")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $userId;

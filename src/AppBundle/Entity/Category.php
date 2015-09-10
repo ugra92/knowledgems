@@ -27,12 +27,12 @@ class Category {
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Article", mappedBy="articleId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Article", mappedBy="categoryId")
      */
     protected $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Video", mappedBy="videoId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Video", mappedBy="categoryId")
      */
     protected $videos;
 

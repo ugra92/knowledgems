@@ -26,6 +26,17 @@ class VideoController extends Controller
 
 
     /**
+     * @Route("/video/{id}", name="video-single")
+     * @param $id
+     * @return string|Response
+     */
+    public function singleVideoAction($id)
+    {
+        $video = $this->get('video_repository')->findOneByVideoId($id);
+        return $this->render('Video/video-single.html.twig', array('video'=>$video));
+    }
+
+    /**
      * @Route("/video/add", name="video-add")
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @Method("GET")

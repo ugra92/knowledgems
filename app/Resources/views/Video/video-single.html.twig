@@ -1,0 +1,196 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
+    <style>
+        .input-field{
+            margin-top: 15px;
+        }
+        .card-video-holder{
+            /*margin-right: 15px;*/
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .card-video-holder .card-image{
+            text-align: center;
+            background-color: #000;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        .card-title{
+            line-height: 38px!important;
+        }
+        .card-content{
+            min-height: 140px!important;
+        }
+        .card-title button{
+            position: absolute;
+            right: 20px;
+            bottom: 110px;
+            background-color: #E6616B;
+        }
+        .card-title button:hover, .card-title button:focus, .card-title button:active{
+            background-color:#E6616B;
+        }
+        .card-reveal{
+            z-index: 3!important;
+            padding: 30px!important;
+        }
+        .card-reveal p{
+            margin-top: 15px;
+        }
+        .youtube .thumb{
+            height: 480px!important;
+        }
+        iframe{
+            height: 480px;
+            width: 860px;
+
+        }
+    </style>
+    <style>
+        .youtube {
+            background-color: #000;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+            cursor: hand;
+            cursor: pointer
+        }
+        .youtube .thumb {
+            bottom: 0;
+            display: block;
+            left: 0;
+            margin: auto;
+            max-width: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width:auto!important;
+            height: 150px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="article-add">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-video-camera"></i> Videos</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-file-text-o"></i><a href="{{ path('video-main') }}">Videos</a></li>
+                <li class="active"><i class="fa fa-eye"></i>All</li>
+            </ol>
+        </div>
+        <div class="col-md-10 col-lg-10">
+            <div class="card card-video-holder">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <div class="youtube" id="{{ video.link[30:] }}">
+                        {#<img src="http://img.youtube.com/vi{{ video.link[29:] }}/0.jpg" alt=""/>#}
+                    </div>
+                    {#<iframe   src="{{ video.link }}?showinfo=0&rel=0&theme=light" frameborder="0" allowfullscreen></iframe>#}
+                </div>
+                <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4 card-heading">{{ video.heading }}
+                            <button class="btn-floating btn-large waves-effect waves-light right"><i class="fa fa-ellipsis-v right"></i></button></span>
+                    <p><a href="{{ video.link|replace({'/embed/':'/watch/'}) }}">{{ video.link|replace({'/embed/':'/watch/'})  }}</a></p>
+                    <span class="date right">{{ video.createdAt | date("F d, Y")  }}</span>
+                </div>
+                <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ video.heading }}
+                            <i class="fa fa-times right"></i></span>
+                    <p>{{ video.description }}</p>
+                    <hr/>
+                    <span><b>tags:</b>{{ video.tags }}</span>
+                </div>
+            </div>
+        </div>
+        {#--------Comments------------------------------#}
+        <div class="col-md-9 portlets">
+            <!-- Widget -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="pull-left">Comments</div>
+                    <div class="widget-icons pull-right">
+                        <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <!-- Widget content -->
+                    <div class="padd sscroll">
+                        <ul class="chats">
+                            <!-- Chat by us. Use the class "by-me". -->
+                            {% for comment in video.comments %}
+                                <!-- Chat by other. Use the class "by-other". -->
+                                <li class="by-other">
+                                    <!-- Use the class "pull-right" in avatar -->
+                                    <div class="avatar pull-right">
+                                        {% if comment.userId.profileImg is not null %}
+                                            <img alt="" src="{{ comment.userId.profileImg.getWebPath }}" alt="avatar">
+                                        {% else  %}
+                                            <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="chat-content">
+                                        <!-- In the chat meta, first include "time" then "name" -->
+                                        <div class="chat-meta">{{ comment.createdAt|date("F d, Y") }} <span class="pull-right">{{ comment.userId.name }}</span></div>
+                                        {{ comment.text }}
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <hr/>
+                    <!-- Widget footer -->
+                    <div class="widget-foot col-md-8">
+                        <div class="form row">
+                            <div class="form-group col-md-8">
+                                <input type="text" class="form-control" name="comment" id="comment" placeholder="Type your comment here...">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <button id="submit-comment" class="btn btn-success">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {#<script type="text/javascript">optimizeYouTubeEmbeds()</script>#}
+{% endblock %}
+
+{% block customScripts %}
+    <script src="{{ asset('Video/youtube.js') }}"></script>
+    <script>
+        $('#submit-comment').on('click', function(){
+            comment = $('#comment').val();
+            var video = {{ app.request.get('id') }};
+            $.post( "{{ path('json-add-comment') }}", {comment:comment, video:video}, function( data ) {
+                data = JSON.parse(data);
+                console.log(author);
+                console.log(data.user);
+                if( data.user == author ){
+                    klasa= "by-me";
+                    pul = "pull-left";
+                }
+                else{
+                    klasa= "by-other";
+                    pul = "pull-right";
+                }
+                html = "<li class='"+klasa+"'>";
+                html+="<div class='avatar "+pul+"'>";
+                html+="<img src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/business-man.png' alt=''>";
+                html+="</div>";
+                html+="<div class='chat-content'>";
+                html+="<div class='chat-meta'>"+data.createdAt+"<span class=" + pul + ">"+data.user+"</span></div>";
+                html+=""+data.text+"";
+                html+=" <div class='clearfix'></div></div></li>";
+                $('.chats').append(html);
+                console.log(data.text);
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -60,7 +60,7 @@ class Article{
     protected $categoryId;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="commentId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="articleId")
      */
     protected $comments;
 

@@ -16,9 +16,22 @@ class VideoManager {
 
     }
 
+    public function findVideoByPk($id){
+        return $this->repository->findOneByVideoId($id);
+    }
+
+    /**
+     * @param $limit
+     * @return array
+     */
     public function findVideosLimited($limit){
         return $this->repository->findVideosLimited($limit);
     }
+
+    /**
+     * @param Video $video
+     * @param $categoryId
+     */
     public function saveVideo(Video $video, $categoryId){
         $category= $this->categoryManager->getCategoryById($categoryId);
         $video->setCategoryId($category);

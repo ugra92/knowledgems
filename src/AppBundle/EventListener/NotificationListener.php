@@ -33,14 +33,20 @@ class NotificationListener implements EventSubscriber {
         $em = $args->getObjectManager();
 
         if($entity instanceof Comment){
-            if($entity->getUserId()->getId() != $entity->getArticleId()->getUserId()->getId()){
-
-                $n = new Notification();
-                $n->setUser($entity->getUserId())->setArticle($entity->getArticleId());
-//                var_dump("usao u if", $entity->getUserId()->getId(),$entity->getArticleId()->getUserId()->getId(), $n);
-//                exit;
-                $em->persist($n);
-                $em->flush();
+            if($entity->getArticleId() != null){
+               if($entity->getUserId()->getId() != $entity->getArticleId()->getUserId()->getId()){
+                   $n = new Notification();
+                   $n->setUser($entity->getUserId())->setArticle($entity->getArticleId());
+                   $em->persist($n);
+                   $em->flush();
+               }
+            }else if($entity->getVideoId() != null){
+                if($entity->getUserId()->getId() != $entity->getVideoId()->getUserId()->getId()){
+                    $n = new Notification();
+                    $n->setUser($entity->getUserId())->setVideo($entity->getVideoId());
+                    $em->persist($n);
+                    $em->flush();
+                }
             }
         }
 
