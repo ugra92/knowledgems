@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{{ asset('Base/css/bootstrap.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('Base/css/style.css') }}"/>
+        <style>
+            body {
+                height: 100vh;
+                color: #797979;
+                background: #3A4450;
+                font-family: 'Lato', sans-serif;
+                padding: 0px !important;
+                margin: 0px !important;
+                font-size: 14px !important;
+            }
+            .logo-login{
+                display: block;
+                height: 200px;
+                text-align: center;
+                margin: auto;
+            }
+            #login-container{
+                padding-top: 50px;
+            }
+            .login-error{
+                background-color: #E6616B;
+                color: #fff;
+                padding: 15px;
+            }
+        </style>
+    </head>
+    <body id="login-body">
+        {#<div>#}
+            {#{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}#}
+                {#{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |#}
+                {#<a href="{{ path('fos_user_security_logout') }}">#}
+                    {#{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}#}
+                {#</a>#}
+            {#{% else %}#}
+                {#<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>#}
+            {#{% endif %}#}
+        {#</div>#}
+
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div>
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+    </body>
+</html>

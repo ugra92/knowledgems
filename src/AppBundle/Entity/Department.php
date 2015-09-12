@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DepartmentRepository")
- *
+ *@ORM\Table(name="Department")
  */
 class Department{
     /**

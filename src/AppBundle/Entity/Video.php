@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\VideoRepository")
- *
+ *@ORM\Table(name="Video")
  */
 
 class Video {
@@ -81,7 +81,7 @@ class Video {
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="video")
      */
     protected $notifications;
 

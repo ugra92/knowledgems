@@ -14,7 +14,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity( repositoryClass="AppBundle\Entity\Repository\TaskRepository")
- *
+ *@ORM\Table(name="Task")
  */
 class Task implements  JsonSerializable {
     /**

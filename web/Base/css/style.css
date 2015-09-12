@@ -618,7 +618,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     /*max-width: 300px !important;*/
     min-width: 160px !important;
     top: 42px;
-    width: 345px !important;
+    /*width: 345px !important;*/
     padding: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.176) !important;
     border: none !important;
@@ -662,6 +662,9 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.toast{
+    background-color: #E5606A;
 }
 #editor {
     max-height: 250px;
