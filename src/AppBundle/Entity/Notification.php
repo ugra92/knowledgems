@@ -16,7 +16,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\NotificationRepository")
- *
+ *@ORM\Table(name="Notification")
  */
 class Notification {
     /**

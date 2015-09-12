@@ -663,6 +663,9 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+.toast{
+    background-color: #E5606A;
+}
 #editor {
     max-height: 250px;
     height: 250px;

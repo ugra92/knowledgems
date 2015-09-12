@@ -1,6 +1,24 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
     <style xmlns="http://www.w3.org/1999/html">
+        .bootbox-confirm{
+            background-color: transparent;
+            overflow-y: hidden;
+            box-shadow: none;
+        }
+        .bootbox-confirm .modal-content{
+            background-color: #fff;
+           color: #797979;
+        }
+        .bootbox-close-button{
+            color: #383838;
+        }
+        .bootbox-confirm .modal-footer{
+            background-color: transparent;
+            background: none;
+            border:none;
+            box-shadow: none;
+        }
         .add-new-task{
             margin: 0;
             padding-top: 0;
@@ -150,10 +168,17 @@
             var dateTo = $('#dateTo').val();
             var description = $('#description').val();
             var employees = $('#employees').val();
-            $.post("{{ path('json_tasks_add')}}", {title:title, dateFrom:dateFrom, dateTo:dateTo, description:description, employees:employees}, function(data){
-                Materialize.toast('Task successfuly saved!', 4000)
-            });
-
+            if(!title){
+                Materialize.toast('Please provide title', 4000);
+            }else if(!employees){
+                Materialize.toast('Please provide emplyees', 4000);
+            }else if (!description){
+                Materialize.toast('Please provide description', 4000);
+            }else{
+                $.post("{{ path('json_tasks_add')}}", {title:title, dateFrom:dateFrom, dateTo:dateTo, description:description, employees:employees}, function(data){
+                    Materialize.toast('Task successfuly saved!', 4000)
+                });
+            }
         });
 
         $('.remove-task').on('click', function(e){
@@ -164,6 +189,7 @@
                     var id = self.parent().parent().parent().attr('id').toString();
                     $.post("{{ path('json_tasks_remove')}}", { taskId:id }, function(data){
                         self.parent().parent().parent().remove();
+                        Materialize.toast('Task successfully removed', 4000)
                     });
                 }
                 else{

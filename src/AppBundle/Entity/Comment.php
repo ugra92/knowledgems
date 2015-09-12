@@ -13,7 +13,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CommentRepository")
- *
+ *@ORM\Table(name="Comment")
  */
 class Comment implements  JsonSerializable {
     /**
