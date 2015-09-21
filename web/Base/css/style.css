@@ -5141,6 +5141,24 @@ span.customSelect.changed {
 .customSelectInner {
 
 }
+.card-red .panel-heading{
+    background: #E6616B;
+    color: #FCFCFC;
+}
+.card-red .panel-heading a{
+    color: #FCFCFC;
+}
+.chip {
+    display: inline-block;
+    height: 32px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    background-color: #E4E4E4;
+}
 
 /*---------Tooltip Css------------*/
 /**

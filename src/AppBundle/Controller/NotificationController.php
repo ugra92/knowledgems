@@ -27,7 +27,6 @@ class NotificationController extends Controller
 
         $id = $request->request->get('id');
         $notification = $this->get('notification_repository')->findOneById($id);
-//        var_dump($notification);exit;
         $this->get('notification_repository')->seeNotification($notification);
         return new JsonResponse('OK');
     }

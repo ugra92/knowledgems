@@ -106,7 +106,7 @@ class Document
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__.'/../../../../kms/web/'.$this->getUploadDir();
+        return __DIR__.'/../../../../knowledgems/web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir()

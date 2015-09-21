@@ -45,6 +45,12 @@ class Notification {
     protected $video;
 
     /**
+     * @ManyToOne(targetEntity="AppBundle\Entity\Link", inversedBy="notifications")
+     * @JoinColumn(name="link_id", referencedColumnName="linkId")
+     **/
+    protected $link;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $createdAt;
@@ -88,6 +94,24 @@ class Notification {
         $this->user = $user;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param mixed $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
+
+
 
     /**
      * @return mixed

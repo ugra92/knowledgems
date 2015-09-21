@@ -4,12 +4,13 @@
             <div class="col-lg-2 col-sm-2">
                 <h4>{{ user.name }}</h4>
                 <div class="follow-ava">
-                    {% if app.user.profileImg is not null %}
+                    {% if user.profileImg is not null %}
                         <img alt="" src="{{ user.profileImg.getWebPath }}" alt="avatar">
                     {% else  %}
                         <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
                     {% endif %}
                 </div>
+                {% if app.user == user %}
                 <form action="{{ path('profile_photo_upload') }}" enctype="multipart/form-data" method="post" id="profileImgUpload">
                     <span class="btn btn-success btn-file">
                         Upload photo
@@ -17,10 +18,11 @@
                         </span>
                     <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i></button>
                 </form>
+                {% endif %}
                 <h6>{{ user.position }}</h6>
             </div>
             <div class="col-lg-4 col-sm-4 follow-info">
-                <p>{{ user.name }}, currently working in a {{ user.departmentId.name }} department.</p>
+                <p>{{ user.name }} {% if user.departmentId %}, currently working in a {{ user.departmentId.name }} department.{% endif %}</p>
                 <p>{{ user.email }}</p>
                 <p><span class="info">Username: </span>{{ user.username }}</i></p>
             </div>

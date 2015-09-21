@@ -2,6 +2,11 @@
 {% block customStylesheet %}
     <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
     <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
+    <style>
+        .input-field{
+            margin-top: 15px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -10,70 +15,59 @@
             <h3 class="page-header"><i class="fa fa-file-text-o"></i> Articles</h3>
             <ol class="breadcrumb">
                 <li><i class="fa fa-file-text-o"></i><a href="index.html">Articles</a></li>
-                <li><i class="fa fa-pencil"></i>Edit Article</li>
+                <li class="active"><i class="fa fa-pencil"></i>Edit</li>
             </ol>
         </div>
         <div class="col-md-3">
-            <div class="panel panel-default">
+            <div class="card card-red">
                 <div class="panel-heading">
-                    <p>Settings</p>
+                    <p>Insert Code Snippets</p>
                 </div>
                 <div class="panel-body">
-                    <div class="portlets">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="pull-left">Insert Code Snippets</div>
-                                <div class="widget-icons pull-right">
-                                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
-                                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="css" class="codeSnippets">Css</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="php" class="codeSnippets">Php</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="javascript" class="codeSnippets">JS</label>
-                                </div>
-                                <div class="widget-foot">
-                                    <!-- Footer goes here -->
-                                </div>
-                            </div>
-                        </div>
+                    <div class="chip">
+                        <label for="css" class="codeSnippets">Css</label>
+                    </div>
+                    <div class="chip">
+                        <label for="php" class="codeSnippets">Php</label>
+                    </div>
+                    <div class="chip">
+                        <label for="javascript" class="codeSnippets">JS</label>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-sm-9">
-            {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_row(form.heading) }}
+        <div class="col-sm-9 card" id="article-content">
+
+            <div class="input-field ">
+                <label for="heading">Heading</label>
+                <input type="text" name="heading" id="heading" class="form-control" value="{{ article.heading }}"/>
+            </div>
+            <div class="input-field hidden">
+                <input type="text" name="id" id="id" class="form-control" value="{{ article.articleId }}"/>
             </div>
             <div class="form-group">
-                {{ form_row(form.content) }}
+                <textarea name="content" id="content" cols="30" rows="10" class="form-control textarea-reset jqtext">{{ article.content }}</textarea>
             </div>
-            <div class="form-group">
-                <label for="category">Choose category</label>
-                <select class="form-control" name="category" id="category">
+            <div class="input-field ">
+                <select name="category" id="category">
                     {% for category in categories %}
                         <option value="{{ category.getCategoryId }}">{{ category.getName }}</option>
                     {% endfor %}
                 </select>
+                <label for="">Choose category</label>
             </div>
-            <div class="form-group">
-                {{ form_row(form.tags) }}
+            <div class="input-field">
+                <label for="tags">Tags</label>
+                <input type="text" id="tags" name="tags" class="form-control" value="{{ article.tags }}"/>
             </div>
-            <div class="form-group">
-                {{ form_row(form.privacy) }}
+            <div class="input-field ">
+                <select name="privacy" id="privacy">
+                    <option value="public">Public</option>
+                    <option value="internal">Internal</option>
+                </select>
+                <label for="">Choose privacy</label>
             </div>
-            {{ form_end(form) }}
-            {% if response is defined %}
-                {{ response }}
-            {% endif %}
+            <button id="edit-article" class="btn btn-success">Edit article</button>
         </div>
     </section>
 {% endblock %}
@@ -81,6 +75,7 @@
 {% block customScripts %}
     <script src="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.min.js') }}"></script>
     <script>
+
         $('.jqtext').jqte();
         // settings of status
         var jqteStatus = true;
@@ -90,11 +85,28 @@
             $('.jqtext').jqte({"status" : jqteStatus})
         });
 
+        $('select').material_select();
+
         //Insert tags for code preview
         $('.codeSnippets').on('click', function(){
             language= $(this).attr('for');
-            $('.jqte_editor').append('<br>&lt;'+language+'&gt;<br> Insert your code here <br>&lt;/'+language+'&gt;');
+            $('.jqte_editor').append('<br>&lt;pre class="brush: '+language+';"&gt;<br> Insert your code here <br>&lt;/pre&gt;');
 
         });
+
+
+        $('#edit-article').on('click', function () {
+            var id =$('#id').val()
+            var heading = $('#heading').val();
+            var content = $('#content').val();
+            var tags = $('#tags').val();
+            var privacy = $('#privacy').val();
+            var category = $('#category').val();
+            console.log(heading,content,tags, privacy, category);
+            $.post('{{ path('article-edit-post')}}', {id:id, heading:heading, content:content, tags:tags, privacy:privacy, category:category}, function(data){
+                Materialize.toast('Article successfully edited', 4000);
+            });
+        });
+
     </script>
 {% endblock %}

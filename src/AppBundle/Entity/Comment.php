@@ -47,6 +47,12 @@ class Comment implements  JsonSerializable {
     protected $videoId;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Link", inversedBy="comments")
+     * @ORM\JoinColumn(name="link_id", referencedColumnName="linkId")
+     */
+    protected $linkId;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     protected $createdAt;
@@ -145,6 +151,22 @@ class Comment implements  JsonSerializable {
     public function setVideoId($videoId)
     {
         $this->videoId = $videoId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLinkId()
+    {
+        return $this->linkId;
+    }
+
+    /**
+     * @param mixed $linkId
+     */
+    public function setLinkId($linkId)
+    {
+        $this->linkId = $linkId;
     }
 
 

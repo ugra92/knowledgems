@@ -7,19 +7,20 @@
  */
 
 namespace AppBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\VideoRepository")
- *@ORM\Table(name="Video")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\LinkRepository")
+ *@ORM\Table(name="Link")
  */
 
-class Video {
+class Link {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $videoId;
+    protected $linkId;
 
     /**
      * @ORM\Column(type="string")
@@ -58,25 +59,25 @@ class Video {
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="links")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $userId;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="links")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="categoryId")
      */
     protected $categoryId;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="videoId")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="linkId")
      */
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="video")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="link")
      */
     protected $notifications;
 
@@ -101,17 +102,17 @@ class Video {
     /**
      * @return mixed
      */
-    public function getVideoId()
+    public function getLinkId()
     {
-        return $this->videoId;
+        return $this->linkId;
     }
 
     /**
-     * @param mixed $videoId
+     * @param $linkId
      */
-    public function setVideoId($videoId)
+    public function setVideoId($linkId)
     {
-        $this->videoId = $videoId;
+        $this->linkId = $linkId;
     }
 
     /**
@@ -279,18 +280,18 @@ class Video {
      */
     public function __construct()
     {
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
-        $this->postType= "Video";
+        $this->postType= "Link";
     }
 
     /**
      * Add comments
      *
-     * @param \AppBundle\Entity\Comment $comments
+     * @param Comment $comments
      * @return Article
      */
-    public function addComment(\AppBundle\Entity\Comment $comments)
+    public function addComment(Comment $comments)
     {
 
         $this->comments[] = $comments;
@@ -301,9 +302,9 @@ class Video {
     /**
      * Remove comments
      *
-     * @param \AppBundle\Entity\Comment $comments
+     * @param Comment $comments
      */
-    public function removeComment(\AppBundle\Entity\Comment $comments)
+    public function removeComment(Comment $comments)
     {
         $this->comments->removeElement($comments);
     }

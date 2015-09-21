@@ -1,12 +1,19 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
     <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+    <style>
+        .material-btn{
+            position: fixed;
+            bottom: 50px;
+            right: 30px;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     {%  set tags = article[0].tags|split(',') %}
     {%  set author = article[0].userId.name  %}
 
-    <section id="article-all">
+    <section id="article-all" class="clearfix">
         <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"></i> Articles</h3>
             <ol class="breadcrumb">
@@ -23,7 +30,7 @@
         </div><!--/.col-->
         {#-----------------Main content ---------------------#}
         <div class="col-md-9">
-            <div class="panel panel-default">
+            <div class="card">
                 <div class="panel-body">
                     {{ article[0].content | raw  }}
                 </div>
@@ -31,7 +38,7 @@
         </div>
         {#-----------------Sidebar ---------------------#}
         <div class="col-md-3">
-            <div class="panel panel-default">
+            <div class="card card-red">
                 <div class="panel-heading">
                     <div class="pull-left">Basic Information</div>
                     <div class="widget-icons pull-right">
@@ -55,7 +62,9 @@
                             <span class="info">Tags: </span>
                             <b>
                                 {% for tag in tags %}
-                                    <a href="#">{{ tag }}</a>
+                                    <div class="chip">
+                                        {{ tag }}
+                                    </div>
                                 {% endfor %}
                             </b>
                         </div>
@@ -67,7 +76,7 @@
         {#--------Comments------------------------------#}
         <div class="col-md-9 portlets">
             <!-- Widget -->
-            <div class="panel panel-default">
+            <div class="card card-red">
                 <div class="panel-heading">
                     <div class="pull-left">Comments</div>
                     <div class="widget-icons pull-right">
@@ -139,6 +148,11 @@
                 </div>
             </div>
         </div>
+        {% if app.user == article[0].userId %}
+        <a class="btn-floating btn-large waves-effect waves-light material-btn" href="{{ path('article-edit', {id:article[0].articleId}) }}">
+            <i class="fa fa-pencil"></i>
+        </a>
+        {% endif %}
     </section>
 {% endblock %}
 

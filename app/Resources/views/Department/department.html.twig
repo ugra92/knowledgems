@@ -1,6 +1,7 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
-
+    <style>
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -32,7 +33,7 @@
         {#-------------------Statistics---------------------#}
         <div class="col-md-8">
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="info-box blue-bg">
                         <i class="fa fa-laptop"></i>
                         <div class="count">{{ departments|length }}</div>
@@ -40,7 +41,7 @@
                     </div><!--/.info-box-->
                 </div><!--/.col-->
 
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="info-box dark-bg">
                         <i class="fa fa-users"></i>
                         <div class="count">{{ employees|length }}</div>
@@ -48,35 +49,26 @@
                     </div><!--/.info-box-->
                 </div><!--/.col-->
 
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="info-box brown-bg">
                         <i class="fa fa-ban"></i>
                         <div class="count">{{ employeesNoDep|length }}</div>
                         <div class="title">Unassigned Employees</div>
                     </div><!--/.info-box-->
                 </div><!--/.col-->
-
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="info-box green-bg">
-                        <i class="fa fa-cubes"></i>
-                        <div class="count">1.426</div>
-                        <div class="title">Stock</div>
-                    </div><!--/.info-box-->
-                </div><!--/.col-->
             </div>
         </div>
         {#-------------------Statistics End---------------------#}
         {#<div class="col-md-12">#}
-            <div class="row">
+            <div class="row" id="departments">
                 {% for department in departments %}
                     {%  if department.getEmployees|length > 0  %}
                         <div class="col-sm-12 portlets clearfix">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
+                            <div class="card card-red">
+                                <div class="panel-heading clearfix">
                                     <div class="pull-left"> {{ department.getName }}</div>
                                     <div class="widget-icons pull-right">
                                         <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
-                                        <a href="#" class="wclose"><i class="fa fa-times"></i></a>
                                     </div>
                                 </div>
                                 <div class="panel-body">

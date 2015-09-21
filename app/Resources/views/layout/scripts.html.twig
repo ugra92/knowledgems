@@ -7,3 +7,25 @@
 <script src="{{ asset('Base/js/menu-custom.js') }}"></script>
 <script src="{{ asset('Base/js/bootbox.min.js') }}"></script>
 <script src="{{ asset('Base/js/notification.js') }}"></script>
+
+<script>
+    $('.notification-li').on('click', function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        var notificationID = $(this).data('notificationid');
+        var type = $(this).data('type');
+        $.post('{{ path('notification_see') }}', {id:notificationID}, function(data) {
+            switch (type){
+                case "video":{
+                    window.location.href = window.location.origin+"/video/" + id;
+                }return;
+                case "article":{
+                    window.location.href = window.location.origin+"/article/" + id;
+                }return;
+                case "link":{
+                    window.location.href = window.location.origin+"/link/" + id;
+                }return;
+            }
+        });
+    });
+</script>

@@ -1,7 +1,7 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
     <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('Link/livePreview.css') }}"/>
     {#<script src="{{ asset('Video/youtubeOpt.js') }}"></script>#}
     <style>
         .input-field{
@@ -46,9 +46,9 @@
 {% block content %}
     <section id="article-add">
         <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-video-camera"></i> Videos</h3>
+            <h3 class="page-header"><i class="fa fa-link"></i> Links</h3>
             <ol class="breadcrumb">
-                <li><i class="fa fa-file-text-o"></i><a href="{{ path('video-main') }}">Videos</a></li>
+                <li><i class="fa fa-link"></i><a href="{{ path('video-main') }}">Links</a></li>
                 <li class="active"><i class="fa fa-eye"></i>All</li>
             </ol>
         </div>
@@ -70,27 +70,25 @@
                     </div>
                 </div>
             </div>
-            {% for video in videos %}
+            {% for link in links %}
                 <div class="col-md-6 col-lg-6">
                     <div class="card card-video-holder">
                         <div class="card-image waves-effect waves-block waves-light">
-                            <div class="youtube" id="{{ video.link[30:] }}">
-                                {#<img src="http://img.youtube.com/vi{{ video.link[29:] }}/0.jpg" alt=""/>#}
-                            </div>
-                            {#<iframe   src="{{ video.link }}?showinfo=0&rel=0&theme=light" frameborder="0" allowfullscreen></iframe>#}
+                            <a href="{{ link.link }}" class="livepreview">{{ link.link }}</a>
+                            {#<iframe src="{{ link.link }}" frameborder="0"></iframe>#}
                         </div>
                         <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4 card-heading"><a href="{{ path('video-single', {id:video.videoId}) }}">{{ video.heading }}</a>
+                        <span class="card-title activator grey-text text-darken-4 card-heading"><a href="{{ link.link }}">{{ link.heading }}</a>
                             <button class="btn-floating btn-large waves-effect waves-light right"><i class="fa fa-ellipsis-v right"></i></button></span>
-                            <p><a href="{{ video.link|replace({'/embed/':'/watch/'}) }}">{{ video.link|replace({'/embed/':'/watch/'})  }}</a></p>
-                            <span class="date right">{{ video.createdAt | date("F d, Y")  }}</span>
+                            <p><a href="{{ link.link }}">{{ link.link }}</a></p>
+                            <span class="date right">{{ link.createdAt | date("F d, Y")  }}</span>
                         </div>
                         <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">{{ video.heading }}
+                        <span class="card-title grey-text text-darken-4">{{ link.heading }}
                             <i class="fa fa-times right"></i></span>
-                            <p>{{ video.description }}</p>
+                            <p>{{ link.description }}</p>
                             <hr/>
-                            <span><b>tags:</b>{{ video.tags }}</span>
+                            <span><b>tags:</b>{{ link.tags }}</span>
                         </div>
                     </div>
                 </div>
@@ -102,14 +100,15 @@
 
 {% block customScripts %}
     <script src="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.min.js') }}"></script>
-    <script src="{{ asset('Video/youtube.js') }}"></script>
+    <script src="{{ asset('Link/livePreview.js') }}"></script>
     <script>
-
+        $(document).ready(function() {
+            $(".livepreview").livePreview();
+        });
         $('#searchHeading').on('keyup', function(){
             var searchStr = $('#searchHeading').val();
-            console.log(searchStr);
             $('.card-heading').each(function(i,obj){
-                var heading = $(this).find("a").html().split('<')[0].toLowerCase();
+                var heading = $(this).html().split('<')[0].toLowerCase();
                 if(heading.indexOf(searchStr)==-1){
                     console.log(heading.indexOf(searchStr.toLowerCase())==-1);
                     $(this).parent().parent().parent().addClass('hidden');
@@ -120,7 +119,7 @@
 
         });
         $(window).load(function(){
-           $('#loader').hide();
+            $('#loader').hide();
         });
     </script>
     <style>

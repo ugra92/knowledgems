@@ -85,4 +85,9 @@ class ArticleRepository extends EntityRepository
             ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
     }
+
+    public function edit($article){
+        $this->_em->persist($article);
+        $this->_em->flush();
+    }
 }

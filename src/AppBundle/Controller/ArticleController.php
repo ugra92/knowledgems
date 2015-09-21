@@ -41,16 +41,18 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/article/edit", name="article-edit")
-     * @return string|\Symfony\Component\HttpFoundation\Response
-     * @Method("GET")
+     * @Route("/article/edit/{id}", name="article-edit")
+     * @param $id
+     * @return string|Response
      */
-    public function editAction()
+    public function editAction($id)
     {
-        $form = $this->createForm(new ArticleType());
+
+        $article = $this->get('article_manager')->findByPk($id);
+
         $categories= $this->get('category_repository')->findAll();
 
-        return $this->render('Article/article-edit.html.twig', array('form'=>$form->createView(), 'categories'=>$categories));
+        return $this->render('Article/article-edit.html.twig', array('article'=>$article, 'categories'=>$categories));
     }
 
     /**
@@ -95,6 +97,37 @@ class ArticleController extends Controller
         $this->get('article_manager')->save($article, $categoryId);
 
         return new Response('Created article '.$article->getHeading());
+    }
+
+    /**
+     * @Route("/article/json/edit", name="article-edit-post")
+     * @param Request $request
+     * @return string|\Symfony\Component\HttpFoundation\Response
+     * @Method("POST")
+     */
+    public function articleEditAction(Request $request)
+    {
+
+        //create new article
+        $article =$this->get('article_manager')->findByPk($request->request->get('id'));
+        // get heading and content from $_POST
+        $article->setHeading($request->request->get('heading'));
+        $article->setContent($request->request->get('content'));
+        $article->setTags($request->request->get('tags'));
+
+        if ($request->request->get('privacy')=='internal'){
+            $article->setPrivate(true);
+        }
+        else{
+            $article->setPrivate(false);
+        }
+        $article->setUserId($this->getUser());
+        $categoryId= (int)$request->request->get('category');
+
+        $this->get('article_manager')->edit($article);
+
+
+        return new Response('Edited article '.$article->getHeading());
     }
 
     /**

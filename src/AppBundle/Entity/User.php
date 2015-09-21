@@ -2,6 +2,8 @@
 namespace AppBundle\Entity;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\CodeSnippet;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Document;
 use AppBundle\Entity\Task;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,6 +44,11 @@ class User extends BaseUser{
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Video", mappedBy="userId")
      */
     protected $videos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Link", mappedBy="userId")
+     */
+    protected $links;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CodeSnippet", mappedBy="userId")
@@ -89,6 +96,7 @@ class User extends BaseUser{
         $this->tasks= new ArrayCollection();
         $this->codeSnippets= new ArrayCollection();
         $this->notifications= new ArrayCollection();
+        $this->links= new ArrayCollection();
     }
 
     /**
@@ -182,21 +190,6 @@ class User extends BaseUser{
         $this->articles = $articles;
     }
 
-//    /**
-//     * @return mixed
-//     */
-//    public function getDocuments()
-//    {
-//        return $this->documents;
-//    }
-//
-//    /**
-//     * @param mixed $documents
-//     */
-//    public function setDocuments($documents)
-//    {
-//        $this->documents = $documents;
-//    }
 
     /**
      * @return mixed
@@ -348,15 +341,32 @@ class User extends BaseUser{
         $this->videos->removeElement($video);
     }
 
+    /**
+     * @param Link $link
+     * @return $this
+     */
+    public function addLink(Link $link)
+    {
+        $link->setUserId($this);
+        $this->links[] = $link;
+        return $this;
+    }
 
+    /**
+     * @param Link $link
+     */
+    public function removeLink(Link $link)
+    {
+        $this->links->removeElement($link);
+    }
 
     /**
      * Add document
      *
-     * @param \AppBundle\Entity\Document $document
+     * @param Document $document
      * @return User
      */
-    public function addDocument(\AppBundle\Entity\Document $document)
+    public function addDocument(Document $document)
     {
         $this->documents[] = $document;
 
@@ -366,9 +376,9 @@ class User extends BaseUser{
     /**
      * Remove document
      *
-     * @param \AppBundle\Entity\Document $document
+     * @param Document $document
      */
-    public function removeDocument(\AppBundle\Entity\Document $document)
+    public function removeDocument(Document $document)
     {
         $this->documents->removeElement($document);
     }
@@ -376,10 +386,10 @@ class User extends BaseUser{
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param Comment $comment
      * @return User
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $comment->setUserId($this);
         $this->comments[] = $comment;
@@ -392,7 +402,7 @@ class User extends BaseUser{
      * @param Comment $comment
      * @internal param Comment $comments
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
     }

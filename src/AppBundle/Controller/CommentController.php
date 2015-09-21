@@ -27,13 +27,16 @@ class CommentController extends Controller
         $comment->setUserId($this->getUser());
         $comment->setText($request->request->get('comment'));
         $articleId=$request->request->get('article');
+        $videoId=$request->request->get('video');
+        $linkId=$request->request->get('link');
         if($articleId != null){
             return  $this->get('comment_manager')->addCommentArticle($comment, $articleId);
-        }else{
+        }else if($videoId != null){
             $videoId =  $request->request->get('video');
             return  $this->get('comment_manager')->addCommentVideo($comment, $videoId);
+        }else if($linkId != null){
+            return  $this->get('comment_manager')->addCommentLink($comment, $linkId);
         }
-
     }
 
 }

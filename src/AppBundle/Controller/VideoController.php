@@ -37,7 +37,7 @@ class VideoController extends Controller
     }
 
     /**
-     * @Route("/video/add", name="video-add")
+     * @Route("/add/video", name="video-add")
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @Method("GET")
      */

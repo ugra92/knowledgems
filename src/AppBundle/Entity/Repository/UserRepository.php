@@ -10,7 +10,7 @@ class UserRepository extends EntityRepository
 {
     public function findByPk($id)
     {
-      return $this->findById($id);
+      return $this->findOneById($id);
     }
 
     public function save(User $user){

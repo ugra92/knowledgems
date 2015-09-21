@@ -21,6 +21,15 @@ class ArticleManager {
 
     }
 
+    public function findByPk($id){
+
+        return $this->repository->findOneByArticleId($id);
+    }
+
+    public function edit($article){
+
+        return $this->repository->edit($article);
+    }
     public function findArticlesByUserLimited($id, $limit){
        return  $this->repository->findArticlesByUserLimited($id, $limit);
     }

@@ -2,11 +2,15 @@
     resize: none;
 }
 .codeSnippets{
-    background: #2E3B46;
-    padding: 2px 15px;
-    color: #FFF;
-    border-radius: 5px;
+    /*background: #2E3B46;*/
+    /*padding: 2px 15px;*/
+    /*color: #FFF;*/
+    /*border-radius: 5px;*/
     cursor: pointer;
+}
+#article-content{
+    padding-bottom: 30px;
+    padding-top: 20px;
 }
 .articles-all .panel-body{
     padding-top: 0;

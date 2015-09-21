@@ -25,7 +25,9 @@ var avgRating = 0;
 var ratingCounter = 0;
 var ratingTotal = 0;
 var tags = [];
+var myBar;
 function renderResponseList(questions){
+
     tags = [];
     container = $('.answers');
     container.empty();
@@ -76,6 +78,12 @@ function renderResponseList(questions){
         container.append(markup);
     });
 
+
+   drawGraph();
+
+}
+
+function drawGraph(){
     analize(tags);
     avgRating = ratingTotal/ratingCounter;
     $('#avgRating').html(Math.round(avgRating * 100) / 100);
@@ -93,8 +101,8 @@ function renderResponseList(questions){
         ]
 
     }
-    var myBar;
     var ctx = document.getElementById("grafik").getContext("2d");
+
     if( myBar == 'undefined'){
         myBar= new Chart(ctx).Bar(barChartData, {
             responsive : true
@@ -107,7 +115,6 @@ function renderResponseList(questions){
     }
 
     console.log(myBar);
-
 }
 
 var words = [];

@@ -10,11 +10,13 @@ class CommentManager {
      protected $repository;
     protected $articleManager;
     protected $videoManager;
+    protected $linkManager;
 
-    public function __construct(CommentRepository $repository, ArticleManager $articleManager, VideoManager $videoManager){
+    public function __construct(CommentRepository $repository, ArticleManager $articleManager, VideoManager $videoManager, LinkManager $linkManager){
         $this->repository= $repository;
         $this->articleManager= $articleManager;
         $this->videoManager= $videoManager;
+        $this->linkManager= $linkManager;
 
     }
 
@@ -40,5 +42,13 @@ class CommentManager {
         $comment->setVideoId($video);
         return $this->repository->addComment($comment);
     }
+
+    public function addCommentLink(Comment $comment, $linkId){
+
+        $link = $this->linkManager->findLinkByPk($linkId);
+        $comment->setLinkId($link);
+        return $this->repository->addComment($comment);
+    }
+
 
  }
