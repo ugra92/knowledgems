@@ -1,0 +1,114 @@
+{% extends ':layout:master.html.twig' %}
+{% block customStylesheet %}
+    <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
+    <style>
+        .input-field{
+            margin-top: 15px;
+        }
+        select{
+            margin-top: 20px;
+        }
+        .card-video-holder{
+            /*margin-right: 15px;*/
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .card-video-holder .card-image{
+            text-decoration: none;
+            text-align: center;
+            background-color: #000;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        .card-title{
+            line-height: 38px!important;
+        }
+        .card-content{
+            min-height: 140px!important;
+        }
+        .card-title button{
+            position: absolute;
+            right: 20;
+            top: 150px;
+            background-color: #E6616B;
+        }
+        .card-title button:hover, .card-title button:focus, .card-title button:active{
+            background-color:#E6616B;
+        }
+        .card-reveal{
+            z-index: 3!important;
+            padding: 30px!important;
+        }
+        .card-reveal p{
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="article-add">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-link"></i> Links</h3>
+            <ol class="breadcrumb">
+                <li><i class="fa fa-link"></i><a href="index.html">Links</a></li>
+                <li class="active"><i class="fa fa-plus"></i>Add New</li>
+            </ol>
+        </div>
+        <div class="col-sm-8">
+
+            <div class="input-field col-lg-6">
+                <input type="text" name="title" id="title"/>
+                <label for="title">Title</label>
+            </div>
+            <div class="input-field col-lg-6">
+                <input type="text" name="link" id="link"/>
+                <label for="link">Link</label>
+            </div>
+            <div class="input-field col-md-12 clearfix">
+                <select name="category" id="category">
+                    {% for category in categories %}
+                        <option value="{{ category.getCategoryId }}">{{ category.getName }}</option>
+                    {% endfor %}
+                </select>
+                <label for="">Choose category</label>
+            </div>
+            <div class="input-field col-md-12">
+                <textarea id="description" class="materialize-textarea"></textarea>
+                <label for="description">Description</label>
+            </div>
+            <div class="input-field col-lg-12">
+                <input type="text" name="tags" id="tags"/>
+                <label for="tags">Tags</label>
+            </div>
+            <div class="input-field col-md-12">
+                <select name="privacy" id="privacy">
+                    <option value="public">Public</option>
+                    <option value="internal">Internal</option>
+                </select>
+                <label for="">Privacy</label>
+            </div>
+            <div class="col-md-12">
+                <button class="btn btn-success" id="saveVideo">Save</button>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block customScripts %}
+    <script>
+        $('select').material_select();
+
+        $('#saveVideo').on('click', function(){
+            var title = $('#title').val();
+            var link = $('#link').val();
+            var desc = $('#description').val();
+            var category = $('#category').val();
+            var tags = $('#tags').val();
+            var privacy = $('#privacy').val();
+            $.post('{{ path('link-add-ajax') }}', {title : title, link: link, desc: desc, category: category, tags: tags, privacy: privacy}, function(data){
+                Materialize.toast('Link successfully added', 4000);
+            });
+        });
+    </script>
+{% endblock %}

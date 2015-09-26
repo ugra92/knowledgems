@@ -19,7 +19,7 @@ class NotificationRepository extends EntityRepository
      */
     public function findByPk($id)
     {
-       return $this->findOneById($id);
+        return $this->findOneById($id);
     }
 
 
@@ -27,7 +27,7 @@ class NotificationRepository extends EntityRepository
      * @param $notification
      */
     public function removeNotification($notification){
-         $this->_em->remove($notification);
+        $this->_em->remove($notification);
         $this->_em->flush();
 
     }
@@ -46,12 +46,16 @@ class NotificationRepository extends EntityRepository
      */
     public function getNotifications(User $user){
         $qb = $this->createQueryBuilder('n');
-        $qb->select('n.id, a.heading as article_heading, a.createdAt, u.username, img.path, v.heading as video_heading, v.videoId');
+       $qb->select('n.id, a.articleId, a.heading as article_heading, a.createdAt, u.username, img.path, v.heading as video_heading, v.videoId, l.linkId, l.heading as link_heading');
         $qb->leftJoin('n.article', 'a')
             ->leftJoin('n.user', 'u')
             ->leftJoin('u.profileImg', 'img')
             ->leftJoin('n.video', 'v')
-            ->where('a.userId = '.$user->getId())->andWhere('n.seen = 0');
+            ->leftJoin('n.link', 'l')
+            ->where('a.userId = '.$user->getId())
+            ->orWhere('v.userId = '.$user->getId())
+            ->orWhere('l.userId = '.$user->getId())
+            ->andWhere('n.seen = 0');
         return $qb->getQuery()->getResult();
     }
 

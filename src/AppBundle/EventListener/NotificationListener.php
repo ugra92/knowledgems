@@ -48,6 +48,14 @@ class NotificationListener implements EventSubscriber {
                     $em->flush();
                 }
             }
+            else if($entity->getLinkId() != null){
+                if($entity->getUserId()->getId() != $entity->getLinkId()->getUserId()->getId()){
+                    $n = new Notification();
+                    $n->setUser($entity->getUserId())->setLink($entity->getLinkId());
+                    $em->persist($n);
+                    $em->flush();
+                }
+            }
         }
 
     }

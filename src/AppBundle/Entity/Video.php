@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\VideoRepository")
- *
+ *@ORM\Table(name="Video")
  */
 
 class Video {
@@ -63,11 +63,6 @@ class Video {
      */
     protected $userId;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="videos")
-//     * @ORM\JoinColumn(name="post_id", referencedColumnName="postId")
-//     */
-//    protected $postId;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="videos")
@@ -81,7 +76,7 @@ class Video {
     protected $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification", mappedBy="video")
      */
     protected $notifications;
 

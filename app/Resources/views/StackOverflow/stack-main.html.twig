@@ -24,6 +24,32 @@
         .collection .collection-item.avatar{
             min-height: 100px;
         }
+        #modal1{
+            min-height: 100%;
+        }
+        .modal-content{
+            box-shadow: none;
+        }
+        .modal-footer{
+            box-shadow: none;
+        }
+        .modal-close{
+            position: fixed;
+            top:30px;
+            right: 30px;
+        }
+        .canvasHolder.canvasHidden{
+            right: -100%;
+            position: absolute;
+            z-index: 2;
+            background: #FCFCFC;
+        }
+        .canvasHolder{
+            right: 0;
+        }
+        body{
+            overflow-x: hidden;
+        }
     </style>
 {% endblock %}
 
@@ -42,6 +68,7 @@
             </div>
             <div class="input-feild col-md-6">
                 <button class="btn btn-success stackReq">Search</button>
+                <button class="btn btn-success" id="statistics">Statistics</button>
             </div>
         </div>
         {% include ('StackOverflow/stats.html.twig') %}
@@ -81,6 +108,10 @@
     <script src="{{ asset('Dashboard/js/Chart.Bar.js') }}"></script>
     <script src="{{ asset('Stack/stackApi.js') }}"></script>
     <script>
+
+        $(document).ready(function(){
+            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+        });
         $('.stackReq').on('click',function(){
             var searchStr = $('#searchStack').val();
             $.get('http://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle='+searchStr+'&site=stackoverflow', function(data){
@@ -90,7 +121,9 @@
     </script>
 
     <script>
-
+        $('#statistics').on('click', function(){
+           $('.canvasHolder').toggleClass('canvasHidden');
+        });
 
     </script>
 

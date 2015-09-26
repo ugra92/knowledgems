@@ -13,7 +13,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\CommentRepository")
- *
+ *@ORM\Table(name="Comment")
  */
 class Comment implements  JsonSerializable {
     /**
@@ -45,6 +45,12 @@ class Comment implements  JsonSerializable {
      * @ORM\JoinColumn(name="video_id", referencedColumnName="videoId")
      */
     protected $videoId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Link", inversedBy="comments")
+     * @ORM\JoinColumn(name="link_id", referencedColumnName="linkId")
+     */
+    protected $linkId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -145,6 +151,22 @@ class Comment implements  JsonSerializable {
     public function setVideoId($videoId)
     {
         $this->videoId = $videoId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLinkId()
+    {
+        return $this->linkId;
+    }
+
+    /**
+     * @param mixed $linkId
+     */
+    public function setLinkId($linkId)
+    {
+        $this->linkId = $linkId;
     }
 
 

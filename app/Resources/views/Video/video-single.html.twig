@@ -1,7 +1,6 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
     <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('Article/plugin/textEditor/jquery-te-1.4.0.css') }}"/>
     <style>
         .input-field{
             margin-top: 15px;
@@ -107,7 +106,7 @@
         {#--------Comments------------------------------#}
         <div class="col-md-9 portlets">
             <!-- Widget -->
-            <div class="panel panel-default">
+            <div class="card card-red">
                 <div class="panel-heading">
                     <div class="pull-left">Comments</div>
                     <div class="widget-icons pull-right">

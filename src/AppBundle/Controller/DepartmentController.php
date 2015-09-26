@@ -45,7 +45,7 @@ class DepartmentController extends Controller
         $doctrine = $this->container->get('doctrine');
         $em = $doctrine->getManager();
         $em->flush();
-        return new Response('Created department '.$department->getName());
+        return $this->redirectToRoute('department-main');
     }
 
 }

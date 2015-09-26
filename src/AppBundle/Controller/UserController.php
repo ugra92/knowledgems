@@ -14,13 +14,13 @@ class UserController extends Controller
 {
 
     /**
-     * @Route("/profile/", name="profile")
+     * @Route("/user-profile/{id}", name="user-profile")
+     * @param $id
      * @return string|\Symfony\Component\HttpFoundation\Response
-     * @Method("GET")
      */
-    public function profileAction()
+    public function profileAction($id)
     {
-        $user = $this->getUser();
+        $user = $this->get('user_repository')->findByPk($id);
         $articles= $this->get('article_manager')->findArticlesByUserLimited($user->getId(), 4);
         $codeSnippets = $this->get('code_manager')->findSnippetsByUserLimited($user->getId(), 4);
         return $this->render('User/user-profile.html.twig', array('user'=> $user, 'articles' => $articles, 'codeSnippets'=>$codeSnippets));
@@ -43,7 +43,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($document);
         $em->flush();
-        return $this->redirectToRoute('profile', array());
+        return $this->redirect($this->generateUrl('user-profile', array('id'=>$this->getUser()->getId())));
     }
 
 

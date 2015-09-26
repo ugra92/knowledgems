@@ -26,6 +26,12 @@ services:
                     factory_method: getRepository
                     arguments: [AppBundle\Entity\Video]
 
+     link_repository:
+                         class: AppBundle\Entity\Repository\LinkRepository
+                         factory_service: doctrine.orm.default_entity_manager
+                         factory_method: getRepository
+                         arguments: [AppBundle\Entity\Link]
+
      user_repository:
                     class: AppBundle\Entity\Repository\UserRepository
                     factory_service: doctrine.orm.default_entity_manager
@@ -74,13 +80,17 @@ services:
                      class: AppBundle\Entity\Manager\VideoManager
                      arguments: ['@video_repository', '@category_manager']
 
+     link_manager:
+                          class: AppBundle\Entity\Manager\LinkManager
+                          arguments: ['@link_repository', '@category_manager']
+
      department_manager:
                  class: AppBundle\Entity\Manager\DepartmentManager
                  arguments: ['@department_repository']
 
      comment_manager:
                  class: AppBundle\Entity\Manager\CommentManager
-                 arguments: ['@comments_repository', '@article_manager', '@video_manager']
+                 arguments: ['@comments_repository', '@article_manager', '@video_manager', '@link_manager']
 
      code_manager:
                   class: AppBundle\Entity\Manager\CodeSnippetManager

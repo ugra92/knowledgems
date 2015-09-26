@@ -16,7 +16,7 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\NotificationRepository")
- *
+ *@ORM\Table(name="Notification")
  */
 class Notification {
     /**
@@ -43,6 +43,12 @@ class Notification {
      * @JoinColumn(name="video_id", referencedColumnName="videoId")
      **/
     protected $video;
+
+    /**
+     * @ManyToOne(targetEntity="AppBundle\Entity\Link", inversedBy="notifications")
+     * @JoinColumn(name="link_id", referencedColumnName="linkId")
+     **/
+    protected $link;
 
     /**
      * @ORM\Column(type="datetime")
@@ -88,6 +94,24 @@ class Notification {
         $this->user = $user;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * @param mixed $link
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+    }
+
+
 
     /**
      * @return mixed
