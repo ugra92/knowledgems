@@ -128,7 +128,7 @@
             var tags = $('#tags').val();
             var privacy = $('#privacy').val();
             $.post('{{ path('video-add-ajax') }}', {title : title, link: link, desc: desc, category: category, tags: tags, privacy: privacy}, function(data){
-                console.log(data);
+                Materialize.toast('Video successfully added!', 4000);
             });
         });
     </script>

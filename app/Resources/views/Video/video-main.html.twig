@@ -106,8 +106,7 @@
     <script>
 
         $('#searchHeading').on('keyup', function(){
-            var searchStr = $('#searchHeading').val();
-            console.log(searchStr);
+            var searchStr = $('#searchHeading').val().toLowerCase();
             $('.card-heading').each(function(i,obj){
                 var heading = $(this).find("a").html().split('<')[0].toLowerCase();
                 if(heading.indexOf(searchStr)==-1){

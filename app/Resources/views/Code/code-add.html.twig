@@ -180,8 +180,7 @@
             var heading = $('#codeHeading').val();
             var tags = $('#codeTags').val();
             $.post("{{ path('json-code-add') }}", {htmlCode:htmlCode, cssCode:cssCode, jsCode:jsCode, heading:heading, tags: tags}, function(data){
-                console.log(css.getSession().getValue());
-//                console.log(data);
+                Materialize.toast('Code successfully added!', 4000);
             });
         });
     </script>

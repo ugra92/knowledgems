@@ -28,8 +28,8 @@
         }
         .bootbox.modal .modal-content{
             border:none;
-            background-color: #E5606A;
-            color:#fff;
+            /*background-color: #E5606A;*/
+            /*color:#fff;*/
         }
         .bootbox.modal .bootbox-close-button{
             color:#fff;
@@ -122,7 +122,7 @@
                                 <input type="date" id="dateToEdit" class="datepicker" placeholder="Date To"/>
                             </div>
                             <div class="form-group col-md-3">
-                                <select name="progress" id="progress" class="form-control">
+                                <select name="status" id="status" class="form-control">
                                     <option value="10">10</option>
                                     <option value="10">20</option>
                                     <option value="10">30</option>
@@ -221,8 +221,9 @@
                 });
             }
         });
-
+        var idForEdit;
         $('.task-edit').on('click', function(){
+             idForEdit = $(this).parent().parent().parent().attr('id');
             var title = ($(this).parent().parent().parent().children()[0].innerHTML);
             $('#taskTitleEdit').val(title);
             var dateFrom =$(this).parent().parent().parent().children()[1].innerHTML;
@@ -231,8 +232,8 @@
             $('#dateToEdit').val(dateTo);
             var description =$(this).parent().parent().parent().children()[5].innerHTML;
             $('#descriptionEdit').val(description);
-            var progress =$(this).parent().parent().parent().children()[4].attributes[0].value;
-            $('#progress').val(progress);
+//            var progress =$(this).parent().parent().parent().children()[4].attributes[0].value;
+//            $('#progress').val(progress);
             $('#collapseEdit').toggle();
 
         });
@@ -252,6 +253,25 @@
                 }
             });
 
+        });
+
+
+
+        $('#EditTask').on('click', function(){
+            var titleEdit = $('#taskTitleEdit').val();
+            var dateFromEdit = $('#dateFromEdit').val();
+            var dateToEdit = $('#dateToEdit').val();
+            var descriptionEdit = $('#descriptionEdit').val();
+            var status = $("#status option:selected").text();
+            if(!titleEdit){
+                Materialize.toast('Please provide title', 4000);
+            }else if (!descriptionEdit){
+                Materialize.toast('Please provide description', 4000);
+            }else{
+                $.post("{{ path('json_tasks_edit')}}", {title:titleEdit, dateFrom:dateFromEdit, dateTo:dateToEdit, description:descriptionEdit, id:idForEdit, status: status}, function(data){
+                    Materialize.toast('Task successfuly edited!', 4000)
+                });
+            }
         });
     </script>
 {% endblock %}

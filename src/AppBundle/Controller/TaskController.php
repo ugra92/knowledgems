@@ -45,7 +45,7 @@ class TaskController extends Controller
         $this->get('task_manager')->saveTask($task);
         foreach($request->request->get('employees') as $employee){
             $user=  $this->get('user_repository')->findByPk($employee);
-            $user[0]->addTask($task);
+            $user->addTask($task);
         }
         $this->getDoctrine()->getManager()->flush();
         return new JsonResponse(array('Success'));
@@ -62,6 +62,24 @@ class TaskController extends Controller
     {
         $taskId=$request->request->get('taskId');
         $this->get('task_manager')->removeTask($taskId);
+        return new JsonResponse(array('Success'));
+    }
+
+    /**
+     * @Route("json/admin/tasks/edit", name="json_tasks_edit")
+     * @Method("POST")
+     * @param Request $request
+     * @return Response
+     */
+    public function jsonEditTaskAction(Request $request)
+    {
+        $task = $this->get('task_manager')->findByPk($request->request->get('id'));
+        $task->setTitle($request->request->get('title'));
+        $task->setCreatedAt(new DateTime($request->request->get('dateFrom')));
+        $task->setFinishDate(new DateTime( $request->request->get('dateTo')));
+        $task->setDescription($request->request->get('description'));
+        $task->setStatus($request->request->get('status'));
+        $this->get('task_manager')->saveTask($task);
         return new JsonResponse(array('Success'));
     }
 

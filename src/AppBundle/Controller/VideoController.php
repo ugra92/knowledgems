@@ -26,7 +26,9 @@ class VideoController extends Controller
 
 
     /**
-     * @Route("/video/{id}", name="video-single")
+     * @Route("/video/{id}", name="video-single", requirements={
+     *     "id": "\d+"
+     * })
      * @param $id
      * @return string|Response
      */
@@ -37,7 +39,7 @@ class VideoController extends Controller
     }
 
     /**
-     * @Route("/add/video", name="video-add")
+     * @Route("/video/add", name="video-add")
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @Method("GET")
      */
@@ -48,7 +50,7 @@ class VideoController extends Controller
     }
 
     /**
-     * @Route("/video/add", name="video-add-ajax")
+     * @Route("/json/video/add", name="video-add-ajax")
      * @return string|\Symfony\Component\HttpFoundation\Response
      * @Method("POST")
      */

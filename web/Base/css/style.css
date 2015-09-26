@@ -5141,6 +5141,10 @@ span.customSelect.changed {
 .customSelectInner {
 
 }
+.select-wrapper span{
+    border-right:none;
+    border-left: none;
+}
 .card-red .panel-heading{
     background: #E6616B;
     color: #FCFCFC;

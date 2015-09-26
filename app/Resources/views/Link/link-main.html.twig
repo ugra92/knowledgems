@@ -106,9 +106,9 @@
             $(".livepreview").livePreview();
         });
         $('#searchHeading').on('keyup', function(){
-            var searchStr = $('#searchHeading').val();
+            var searchStr = $('#searchHeading').val().toLowerCase();
             $('.card-heading').each(function(i,obj){
-                var heading = $(this).html().split('<')[0].toLowerCase();
+                var heading = $(this).find("a").html().split('<')[0].toLowerCase();
                 if(heading.indexOf(searchStr)==-1){
                     console.log(heading.indexOf(searchStr.toLowerCase())==-1);
                     $(this).parent().parent().parent().addClass('hidden');

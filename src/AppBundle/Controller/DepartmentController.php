@@ -40,7 +40,7 @@ class DepartmentController extends Controller
         $this->get('department_manager')->save($department);
         foreach ($request->get('users') as $userId){
             $user= $this->get('user_repository')->findByPk($userId);
-            $department->addEmployee($user[0]);
+            $department->addEmployee($user);
         }
         $doctrine = $this->container->get('doctrine');
         $em = $doctrine->getManager();

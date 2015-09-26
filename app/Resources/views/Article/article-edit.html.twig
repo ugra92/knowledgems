@@ -6,6 +6,7 @@
         .input-field{
             margin-top: 15px;
         }
+
     </style>
 {% endblock %}
 
@@ -102,6 +103,9 @@
             var tags = $('#tags').val();
             var privacy = $('#privacy').val();
             var category = $('#category').val();
+            content = content.replace(/&lt;/g, "<");
+            content = content.replace(/<br>/g, "");
+            content = content.replace(/&gt;/g, ">");
             console.log(heading,content,tags, privacy, category);
             $.post('{{ path('article-edit-post')}}', {id:id, heading:heading, content:content, tags:tags, privacy:privacy, category:category}, function(data){
                 Materialize.toast('Article successfully edited', 4000);

@@ -12,6 +12,11 @@ class TaskManager {
 
     }
 
+    public function findByPk($id){
+
+        return $this->repository->findOneById($id);
+    }
+
     public function removeTask($taskId){
         $task = $this->repository->findByPk($taskId);
         $this->repository->removeTask($task);
