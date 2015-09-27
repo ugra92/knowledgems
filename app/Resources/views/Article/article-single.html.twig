@@ -98,7 +98,7 @@
                                     <li class="by-me">
                                         <!-- Use the class "pull-left" in avatar -->
                                         <div class="avatar pull-left">
-                                            {% if app.user.profileImg is not null %}
+                                            {% if article[0].userId.profileImg is not null %}
                                                 <img alt="" src="{{ comment.userId.profileImg.getWebPath }}" alt="avatar">
                                             {% else  %}
                                                 <img src="http://eventraveler.com/images/avatar.png" alt="avatar"/>
@@ -163,6 +163,11 @@
     <script src="{{ asset('Base/js/syntaxHighlighter/shBrushPhp.js') }}"></script>
 
     <script>
+        {% if app.user.profileImg is not null %}
+        var img = "{{ app.user.profileImg.getWebPath }}";
+        {% else  %}
+        var img = "http://eventraveler.com/images/avatar.png";
+        {% endif %}
         SyntaxHighlighter.all();
         var id={{ app.request.get('id') }};
         var comment="";
@@ -170,8 +175,6 @@
             comment = $('#comment').val();
             $.post( "{{ path('json-add-comment') }}", {comment:comment, article:id}, function( data ) {
                 data = JSON.parse(data);
-                console.log(author);
-                console.log(data.user);
                 if( data.user == author ){
                     klasa= "by-me";
                     pul = "pull-left";
@@ -182,10 +185,10 @@
                 }
                 html = "<li class='"+klasa+"'>";
                 html+="<div class='avatar "+pul+"'>";
-                html+="<img src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/business-man.png' alt=''>";
+                html+="<img src='"+img+"' alt=''>";
                 html+="</div>";
                 html+="<div class='chat-content'>";
-                html+="<div class='chat-meta'>"+data.createdAt+"<span class=" + pul + ">"+data.user+"</span></div>";
+                html+="<div class='chat-meta'>"+data.user+"<span class='pull-right'>"+data.createdAt.split(',')[1].substring(1,12)+"</span></div>";
                 html+=""+data.text+"";
                 html+=" <div class='clearfix'></div></div></li>";
                 $('.chats').append(html);

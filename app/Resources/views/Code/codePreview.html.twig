@@ -1,0 +1,17 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ asset('Base/css/bootstrap.min.css') }}">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <style>
+        {{ code[0].css|raw }}
+    </style>
+</head>
+<body>
+
+<script src="{{ asset('Base/js/jquery-2.1.3.js') }}"></script>
+<script src="{{ asset('Base/js/bootstrap.min.js') }}"></script>
+{{ code[0].html |raw}}
+
+{{ code[0].js |raw}}
+</body>
+</html>

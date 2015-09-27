@@ -22,7 +22,11 @@ class CodeSnippetRepository extends EntityRepository
     }
 
     public function getCodeById($id){
-        return $this->findByCodeSnippetId($id);
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c.css', 'c.html', 'c.js')
+            ->where('c.codeSnippetId = ?1')
+            ->setParameter('1', $id);
+        return $qb->getQuery()->getResult();
     }
     public function saveCode($code){
         $this->_em->persist($code);

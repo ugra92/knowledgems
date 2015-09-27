@@ -64,4 +64,13 @@ class CodeController extends Controller
        return $this->render('Code/code-all.html.twig', array('codes'=>$codes));
     }
 
+    /**
+     * @Route("/codePreview/{id}", name="codePreview")
+     * @Method("GET")
+     */
+    public function codePreviewAction($id){
+        $code = $this->get('code_manager')->getCodeById($id);
+        return $this->render('Code/codePreview.html.twig', array('code'=>$code));
+    }
+
 }

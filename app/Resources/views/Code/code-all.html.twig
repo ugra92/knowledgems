@@ -1,6 +1,29 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
+    <style>
+        .spaceWrap {
+            margin: 0 auto;
+            width: 80%;
+            height: 225px;
+            padding: 0;
+            overflow: hidden;
+        }
 
+        .viewPort {
+            margin-top: 10px;
+            width: 1380px;
+            height: 680px;
+            border: 1px solid white;
+        }
+
+        .viewPort {
+            -webkit-transform: scale(0.25);
+            -webkit-transform-origin: 0 0;
+        }
+        .iframe-holder{
+            max-width: 450px;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <section id="dashboard">
@@ -11,14 +34,13 @@
             </ol>
         </div>
         {% for code in codes %}
-                <div class="col-md-6 col-lg-6">
-                    <div class="card card-video-holder">
-                        <div class="card-image waves-effect waves-block waves-light">
-
-                            <iframe id="iframe{{ code.codeSnippetId }}"></iframe>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-video-holder iframe-holder">
+                        <div class="card-image waves-effect waves-block waves-light spaceWrap">
+                            <iframe  class="viewPort" id="iframe{{ code.codeSnippetId }}" src="{{ path('codePreview', {id:code.codeSnippetId}) }}"></iframe>
                         </div>
                         <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4 card-heading">{{ code.heading }}
+                        <span class="card-title activator grey-text text-darken-4 card-heading"><a href="{{ path('code_main', {id:code.codeSnippetId}) }}">{{ code.heading }}</a>
                             <button class="btn-floating btn-large waves-effect waves-light right"><i class="fa fa-ellipsis-v right"></i></button></span>
                             {#<p><a href="{{ video.link|replace({'/embed/':'/watch/'}) }}">{{ video.link|replace({'/embed/':'/watch/'})  }}</a></p>#}
                             <span class="date right">{{ code.createdAt | date("F d, Y")  }}</span>
@@ -36,21 +58,6 @@
     </section>
 {% endblock %}
 {% block customScripts %}
-    <script rel="script">
-        {% for code in codes %}
-        var identifier = "iframe";
-        identifier =identifier.concat({{  code.codeSnippetId  }});
-        var style = document.createElement("style");
-
-        ($('#iframe'+{{  code.codeSnippetId  }}).contents().find("head"))[0].appendChild(style);
-        var styleTag = $('#iframe'+{{  code.codeSnippetId  }}).contents().find("head").find('style');
-        var styleCode = '{{ code.css|e('css') }}';
-        styleTag.appendData(styleCode);
-        var content = $('#iframe'+{{ code.codeSnippetId }}).contents().find("body");
-        var html = '{{ code.html|e('html') }}';
-        console.log(styleTag.html("{{ code.css }}"));
-        {% endfor %}
-    </script>
 
 {% endblock %}
 

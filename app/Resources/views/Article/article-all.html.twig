@@ -1,6 +1,14 @@
 {% extends ':layout:master.html.twig' %}
 {% block customStylesheet %}
     <link rel="stylesheet" href="{{ asset('Article/articleBase.css') }}"/>
+    <style>
+        .article-heading-ajax{
+            font-weight: 300!important;
+            margin-top: 0;
+            color: #c3c3c3!important;
+            font-size: 1.64rem!important;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <section id="article-all">
@@ -37,34 +45,34 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="pull-left">Sort by</div>
-                                <div class="widget-icons pull-right">
-                                    <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
-                                    <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <input type="checkbox" name="dateAsc" id="dateAsc" class="css-checkbox"/>
-                                    <label for="dateAsc" class="css-label">Date Ascending</label>
-                                </div>
-                                <div class="form-group">
-                                    <input type="checkbox" name="dateDesc" id="dateDesc" class="css-checkbox"/>
-                                    <label for="dateDesc" class="css-label">Date Descending</label>
-                                </div>
-                                <div class="form-group">
-                                    <input type="checkbox" name="commentsAsc" id="commentsAsc" class="css-checkbox"/>
-                                    <label for="commentsAsc" class="css-label">Comments Ascending</label>
-                                </div>
-                                <div class="form-group">
-                                    <input type="checkbox" name="commentsDesc" id="commentsDesc" class="css-checkbox"/>
-                                    <label for="commentsDesc" class="css-label">Comments Descending</label>
-                                </div>
-                            </div>
-                        </div>
+                        {#<div class="panel panel-default">#}
+                            {#<div class="panel-heading">#}
+                                {#<div class="pull-left">Sort by</div>#}
+                                {#<div class="widget-icons pull-right">#}
+                                    {#<a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>#}
+                                    {#<a href="#" class="wclose"><i class="fa fa-times"></i></a>#}
+                                {#</div>#}
+                                {#<div class="clearfix"></div>#}
+                            {#</div>#}
+                            {#<div class="panel-body">#}
+                                {#<div class="form-group">#}
+                                    {#<input type="checkbox" name="dateAsc" id="dateAsc" class="css-checkbox"/>#}
+                                    {#<label for="dateAsc" class="css-label">Date Ascending</label>#}
+                                {#</div>#}
+                                {#<div class="form-group">#}
+                                    {#<input type="checkbox" name="dateDesc" id="dateDesc" class="css-checkbox"/>#}
+                                    {#<label for="dateDesc" class="css-label">Date Descending</label>#}
+                                {#</div>#}
+                                {#<div class="form-group">#}
+                                    {#<input type="checkbox" name="commentsAsc" id="commentsAsc" class="css-checkbox"/>#}
+                                    {#<label for="commentsAsc" class="css-label">Comments Ascending</label>#}
+                                {#</div>#}
+                                {#<div class="form-group">#}
+                                    {#<input type="checkbox" name="commentsDesc" id="commentsDesc" class="css-checkbox"/>#}
+                                    {#<label for="commentsDesc" class="css-label">Comments Descending</label>#}
+                                {#</div>#}
+                            {#</div>#}
+                        {#</div>#}
                     </div>
                 </div>
             </div>
@@ -121,7 +129,7 @@
                     url = url.replace("articleID", val.articleId);
                     var textInner= " <a href='#' class='activity-img'><img class='avatar' src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/Five-Promotional-Items-For-the-Savvy-Businessman.png' alt=''></a>" +
                             " <p class='attribution'><a href='#'>"+val.name+"</a>"+val.createdAt+"</p>" +
-                            " <h5><a href='"+url+"'>"+ val.heading+ "</h5></a>"+
+                            " <h5><a href='"+url+"' class='article-heading-ajax'>"+ val.heading+ "</a></h5>"+
                             "<p>"+val.content.substring(0,150)+"</p>";
                     $('.articles-all').append(panelBody.html(profileActivity.html(actTime.html(activityBody.html(text.html(textInner))))));
                     console.log(val);

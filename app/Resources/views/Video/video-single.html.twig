@@ -185,7 +185,7 @@
                 html+="<img src='http://www.thebalsagroup.org/wp-content/uploads/2014/10/business-man.png' alt=''>";
                 html+="</div>";
                 html+="<div class='chat-content'>";
-                html+="<div class='chat-meta'>"+data.createdAt+"<span class=" + pul + ">"+data.user+"</span></div>";
+                html+="<div class='chat-meta'>"+data.user+"<span class='pull-right'>"+data.createdAt.split(',')[1].substring(1,12)+"</span></div>";
                 html+=""+data.text+"";
                 html+=" <div class='clearfix'></div></div></li>";
                 $('.chats').append(html);
